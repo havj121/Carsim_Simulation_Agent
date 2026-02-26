@@ -4,3 +4,4 @@ INPUT D:\RanWei\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Modified_Run.par
 ECHO D:\RanWei\AI_test\Carsim_Agent\Carsim_Simulation_Agent\LastRun_echo.par
 LOGFILE D:\RanWei\AI_test\Carsim_Agent\Carsim_Simulation_Agent\LastRun_log.txt
 ERDFILE D:\RanWei\AI_test\Carsim_Agent\Carsim_Simulation_Agent\LastRun_data.erd
+END
