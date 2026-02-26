@@ -1,0 +1,70 @@
+import os
+
+class ParsfileModifier:
+    """
+    针对 CarSim Parsfile 的智能修改器
+    利用参数覆盖机制，避免直接修改庞大的 all.par 文件
+    """
+    def __init__(self, base_all_par: str, output_dir: str):
+        self.base_all_par = os.path.abspath(base_all_par)
+        self.output_dir = output_dir
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+    def generate_modified_run(self, run_name: str, new_params: dict, vs_commands: list = None):
+        """
+        创建一个新的入口 Parsfile，覆盖原始参数
+        :param run_name: 新运行的名称
+        :param new_params: 字典形式的新参数 { "SPEED": 100, "MU_ROAD": 0.8 }
+        :param vs_commands: 需要额外注入的 VS Commands 列表
+        """
+        new_par_path = os.path.join(self.output_dir, f"{run_name}.par")
+        
+        with open(new_par_path, 'w', encoding='utf-8') as f:
+            f.write("PARSFILE\n")
+            f.write(f"! 基于模板: {os.path.basename(self.base_all_par)} 自动生成的修改配置\n\n")
+            
+            # 1. 关键：首先引入原始的全量参数文件
+            # 这样确保了成千上万个基础参数（悬架、轮胎等）依然有效
+            f.write(f'PARSFILE "{self.base_all_par}"\n\n')
+            
+            # 2. 写入修改的参数（由于写在后面，它们会覆盖 all.par 中的旧值）
+            f.write("! --- 智能体生成的参数覆盖 ---\n")
+            for key, value in new_params.items():
+                f.write(f"{key} {value}\n")
+            
+            # 3. 写入 VS Commands (如果有，如设置新的 Event)
+            if vs_commands:
+                f.write("\n! --- 注入自定义逻辑 ---\n")
+                for cmd in vs_commands:
+                    f.write(f"{cmd}\n")
+            
+            f.write("\nEND\n")
+        
+        print(f"成功生成新的 Parsfile: {new_par_path}")
+        return new_par_path
+
+# --- 使用示例 ---
+if __name__ == "__main__":
+    # 假设你上传的 Run_all.par 路径如下
+    all_par_path = "Run_all.par"
+    
+    modifier = ParsfileModifier(all_par_path, output_dir="./modified_runs")
+    
+    # 场景：用户想测试在低附着路面下的爆胎工况，并将初速提高到 130km/h
+    # 参考 LastRun_echo.par 中的关键字
+    new_config = {
+        "TSTOP": 15,          # 延长仿真时间
+        "SPEED": 130,         # 修改初速 (原值为 120)
+        "MU_ROAD": 0.35,      # 修改路面摩擦力
+        "OPT_STOP": 1         # 开启停止条件
+    }
+    
+    # 注入一些自定义指令 (参考 vs_commands.pdf)
+    commands = [
+        "DEFINE_EVENT T > 5 ; OPT_STOP 1 ; ! 5秒后停止仿真"
+    ]
+    
+    target_par = modifier.generate_modified_run("low_mu_test", new_config, commands)
+    
+    # 后续：只需调用 solver.exe 执行这个新的 target_par 即可

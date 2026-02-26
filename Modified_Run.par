@@ -1,0 +1,7 @@
+PARSFILE
+PARSFILE "d:\RanWei\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Template_ABS_Base.par"
+! --- 智能体修改部分 ---
+VX 150.0
+TSTOP 10.0
+OPT_STOP 1
+END
