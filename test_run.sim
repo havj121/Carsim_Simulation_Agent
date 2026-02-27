@@ -1,7 +1,0 @@
-SIMFILE
-DLLFILE D:\Program Files\Carsim2020\Programs\solvers\carsim_64.dll
-INPUT D:\RanWei\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Modified_Run.par
-ECHO D:\RanWei\AI_test\Carsim_Agent\Carsim_Simulation_Agent\LastRun_echo.par
-LOGFILE D:\RanWei\AI_test\Carsim_Agent\Carsim_Simulation_Agent\LastRun_log.txt
-ERDFILE D:\RanWei\AI_test\Carsim_Agent\Carsim_Simulation_Agent\LastRun_data.erd
-END

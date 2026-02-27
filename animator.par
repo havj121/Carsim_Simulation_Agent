@@ -1,0 +1,14 @@
+PARSFILE
+search_path_append .
+search_path_append D:\RanWei\AI_test\Carsim_Agent\Carsim_Simulation_Agent
+search_path_append D:\Program Files\Carsim2020\Resources
+search_path_append D:\Program Files\Carsim2020
+search_path_append D:\Program Files\Carsim2020\Resources\Animator\Deprecated_Assets
+set_run_slot 0
+DATASET C:\Users\Public\Documents\CarSim2020.0_Data\Runs\AI_Agent_Test\LastRun_data.erd
+PARSFILE C:\Users\Public\Documents\CarSim2020.0_Data\Runs\AI_Agent_Test\Modified_Run.par
+LIVE_SERVER_REMOVE_ALL
+SET_PATH_COLOR 1 1 1
+DISPLAY OFF
+SET_SPECULAR 0 0 0
+END
