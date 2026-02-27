@@ -124,9 +124,6 @@ class CarSimTester:
     def verify_results(self, expected: dict):
         """步骤 4: 验证 Echo 文件中的参数"""
         print(f"[Step 4] 正在验证参数修改结果...")
-        # 重新构建 echo_file 路径，确保使用正确的时间戳文件夹
-        self.echo_file = os.path.join(self.RUN_PATH, "LastRun_echo.par")
-        
         if not os.path.exists(self.echo_file):
             print(f"错误: 未找到 Echo 文件！路径：{self.echo_file}")
             return False
