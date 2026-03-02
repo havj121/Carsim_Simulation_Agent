@@ -2,15 +2,9 @@ import os
 import subprocess
 import re
 import time
+import carsim_config as cfg
 
-# --- 配置区 (请根据实际安装路径确认) ---
-CARSIM_PROGRAM_PATH = r"D:\Program Files\Carsim2020\Programs"
-CARSIM_SOLVER_PATH = os.path.join(CARSIM_PROGRAM_PATH, r"VS_SolverWrapper_CLI_64\VS_SolverWrapper_CLI_64.exe")
-CARSIM_DATA_DIR = r"C:\Users\Public\Documents\CarSim2020.0_Data"
-# 2. 指向内核 DLL 文件
-CARSIM_DLL_PATH = os.path.join(CARSIM_PROGRAM_PATH, r"solvers\carsim_64.dll")
-# 运行目录设在 Data 目录的 Runs 文件夹下，确保相对路径有效
-CARSIM_RUNS_DIR = os.path.join(CARSIM_DATA_DIR, "Runs")
+# --- 配置区 (已迁移至 carsim_config.py) ---
 
 # 建议：将基础模板文件也放入Data目录下或者使用绝对路径
 CURE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -23,7 +17,7 @@ Project_Name= f"Carsim_Agent_Test_{time.strftime('%Y%m%d_%H%M%S', time.localtime
 class CarSimTester:
     def __init__(self):
         # 运行目录设置在 Data 目录的 Runs 文件夹下，确保相对路径有效
-        self.RUN_PATH = os.path.join(CARSIM_RUNS_DIR, Project_Name)
+        self.RUN_PATH = os.path.join(cfg.CARSIM_RUNS_DIR, Project_Name)
         if not os.path.exists(self.RUN_PATH):
             os.makedirs(self.RUN_PATH)
         self.run_par = os.path.join(self.RUN_PATH, "Modified_Run.par")
@@ -50,15 +44,14 @@ class CarSimTester:
     def create_simfile(self):
         """步骤 2: 创建控制文件 simfile.sim"""
         print(f"[Step 2] 正在生成 simfile...")
-        
         # 辅助函数：确保路径以反斜杠结尾
         def ensure_backslash(path):
             p = path.replace("/", "\\")
             return p if p.endswith("\\") else p + "\\"
-
-        prog_dir = ensure_backslash(CARSIM_PROGRAM_PATH)
-        data_dir = ensure_backslash(CARSIM_DATA_DIR)
-        res_dir = ensure_backslash(os.path.join(CARSIM_PROGRAM_PATH, "Resources"))
+        
+        prog_dir = ensure_backslash(cfg.CARSIM_PROGRAM_PATH)
+        data_dir = ensure_backslash(cfg.CARSIM_DATA_DIR)
+        res_dir = ensure_backslash(os.path.join(cfg.CARSIM_PROGRAM_PATH, "Resources"))
  
         with open(self.sim_file, 'w', encoding='ascii') as f:
             f.write("SIMFILE\n\n")
@@ -85,7 +78,7 @@ class CarSimTester:
             f.write("PORTS_IMP 0\n")
             f.write("PORTS_EXP 0\n\n")
             
-            f.write(f"DLLFILE {CARSIM_DLL_PATH}\n")
+            f.write(f"DLLFILE {cfg.CARSIM_DLL_PATH}\n")
             f.write("END\n")
         return 
 
@@ -94,18 +87,18 @@ class CarSimTester:
         print(f"[Step 3] 正在调用求解器...")
         try:
             # 命令格式: solver.exe -s simfile.sim
-            command = [CARSIM_SOLVER_PATH, 
+            command = [cfg.CARSIM_SOLVER_PATH, 
                         "-sim", self.sim_file,
-                        "-progdir", CARSIM_PROGRAM_PATH,
-                        "-datadir", CARSIM_DATA_DIR]
+                        "-progdir", cfg.CARSIM_PROGRAM_PATH,
+                        "-datadir", cfg.CARSIM_DATA_DIR]
             # 修复 2：添加 CarSim 必要的环境变量
             env = os.environ.copy()
             # 关键修复：必须将程序目录加入 PATH，否则 DLL 可能因缺少依赖无法加载
-            env["PATH"] = CARSIM_PROGRAM_PATH + os.pathsep + env.get("PATH", "")
+            env["PATH"] = cfg.CARSIM_PROGRAM_PATH + os.pathsep + env.get("PATH", "")
             
             # 运行求解器：取消 capture_output=True，直接输出所有日志（方便排查）
             result = subprocess.run(command,
-                                    cwd=CARSIM_DATA_DIR,  # 修正工作目录
+                                    cwd=cfg.CARSIM_DATA_DIR,  # 修正工作目录
                                     env=env,             # 传入环境变量
                                     text=True, 
                                     check=True,
