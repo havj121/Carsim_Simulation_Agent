@@ -30,7 +30,6 @@ class CarSimTester:
     def create_modified_parsfile(self, mods: dict):
         """步骤 1: 创建覆盖层 Parsfile"""
         print(f"[Step 1] 正在生成修改后的 Parsfile...")
-        
         with open(self.run_par, 'w', encoding='ascii') as f:
             f.write("PARSFILE\n")
             # 引入基准模板
