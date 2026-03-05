@@ -8,5 +8,5 @@ CARSIM_DATA_DIR = r"C:\Users\Public\Documents\CarSim2020.0_Data"
 CARSIM_DLL_PATH = os.path.join(CARSIM_PROGRAM_PATH, r"solvers\carsim_64.dll")
 # 运行目录设在 Data 目录的 Runs 文件夹下，确保相对路径有效
 CARSIM_RUNS_DIR = os.path.join(CARSIM_DATA_DIR, "Runs")
-
-
+# 运行目录设在Data目录的Results文件夹下，确保相对路径有效
+CARSIM_RESULTS_DIR = os.path.join(CARSIM_DATA_DIR, "Results")

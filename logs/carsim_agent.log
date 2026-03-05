@@ -1,0 +1,208 @@
+2026-03-05 15:23:54,723 - CarsimAgent - INFO - Loaded parameter library from JSON: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\carsim_param_lib.json
+2026-03-05 15:23:54,724 - CarsimAgent - INFO - 🚀 Starting agent task: '创建Carsim仿真，目标车速修改为90km/h, 道路摩擦系数修改为0.6'
+2026-03-05 15:23:54,724 - CarsimAgent - INFO - Analyzing intent with LLM...
+2026-03-05 15:23:54,725 - CarsimAgent - WARNING - LLM API endpoint not configured, falling back to local parsing.
+2026-03-05 15:23:54,725 - CarsimAgent - INFO - Local parse: detected speed modification -> 90.0
+2026-03-05 15:23:54,725 - CarsimAgent - INFO - Local parse: detected friction modification -> 90.0
+2026-03-05 15:23:54,725 - CarsimAgent - INFO - Proposed modifications: {
+  "SPEED_TARGET_CONSTANT(1)": 90.0,
+  "MU_ROAD_CONSTANT(1)": 90.0,
+  "OPT_ECHO_ALL_PARS": 1
+}
+2026-03-05 15:23:54,725 - CarsimAgent - INFO - Initializing simulation runner using template path: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template
+2026-03-05 15:23:54,726 - CarsimAgent - INFO - Created workspace: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_152354
+2026-03-05 15:23:54,727 - CarsimAgent - INFO - Created parsfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_152354\Modified_Run.par
+2026-03-05 15:23:54,727 - CarsimAgent - INFO - Created simfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_152354\CarSim_Agent.sim
+2026-03-05 15:23:54,727 - CarsimAgent - INFO - Launching solver for project: Carsim_Agent_Run_20260305_152354
+2026-03-05 15:23:55,450 - CarsimAgent - INFO - Solver completed successfully
+2026-03-05 15:23:55,451 - CarsimAgent - INFO - Simulation completed successfully.
+2026-03-05 15:23:55,451 - CarsimAgent - INFO - Verifying parameter modifications in Echo file...
+2026-03-05 15:23:55,453 - CarsimAgent - INFO - Verification PASSED for SPEED_TARGET_CONSTANT(1): 90.0
+2026-03-05 15:23:55,454 - CarsimAgent - INFO - Verification PASSED for MU_ROAD_CONSTANT(1): 90.0
+2026-03-05 15:23:55,454 - CarsimAgent - INFO - Verification PASSED for OPT_ECHO_ALL_PARS: 1.0
+2026-03-05 15:23:55,456 - CarsimAgent - INFO - Task finished.
+2026-03-05 16:05:08,087 - CarsimAgent - INFO - Loaded 346 parameters from Drifting_Template\LastRun_echo.par
+2026-03-05 16:05:08,100 - CarsimAgent - INFO - Saved parameter library to carsim_hierarchical_lib.json
+2026-03-05 16:31:39,369 - CarsimAgent - INFO - Loaded parameter library from JSON: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\carsim_agent\carsim_hierarchical_lib.json
+2026-03-05 16:31:39,369 - CarsimAgent - INFO - 🚀 Starting agent task: '运行Carsim仿真，将车速设置为常数120 km/h, 道路摩擦系数设置为 0.6'
+2026-03-05 16:31:39,369 - CarsimAgent - INFO - Analyzing intent with LLM...
+2026-03-05 16:31:39,369 - CarsimAgent - WARNING - LLM API endpoint not configured, falling back to local parsing.
+2026-03-05 16:31:39,370 - CarsimAgent - INFO - Local parse: detected speed modification -> 120.0
+2026-03-05 16:31:39,370 - CarsimAgent - INFO - Local parse: detected friction modification -> 120.0
+2026-03-05 16:31:39,370 - CarsimAgent - INFO - Proposed modifications: {
+  "SPEED_TARGET_CONSTANT(1)": 120.0,
+  "MU_ROAD_CONSTANT(1)": 120.0,
+  "OPT_ECHO_ALL_PARS": 1
+}
+2026-03-05 16:31:39,370 - CarsimAgent - INFO - Initializing simulation runner using template path: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template
+2026-03-05 16:31:39,370 - CarsimAgent - INFO - Created workspace: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_163139
+2026-03-05 16:31:39,372 - CarsimAgent - INFO - Created parsfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_163139\Modified_Run.par
+2026-03-05 16:31:39,380 - CarsimAgent - INFO - Created simfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_163139\CarSim_Agent.sim
+2026-03-05 16:31:39,380 - CarsimAgent - INFO - Launching solver for project: Carsim_Agent_Run_20260305_163139
+2026-03-05 16:31:39,524 - CarsimAgent - INFO - Solver completed successfully
+2026-03-05 16:31:39,524 - CarsimAgent - INFO - Simulation completed successfully.
+2026-03-05 16:31:39,525 - CarsimAgent - INFO - Verifying parameter modifications in Echo file...
+2026-03-05 16:31:39,527 - CarsimAgent - INFO - Verification PASSED for SPEED_TARGET_CONSTANT(1): 120.0
+2026-03-05 16:31:39,528 - CarsimAgent - INFO - Verification PASSED for MU_ROAD_CONSTANT(1): 120.0
+2026-03-05 16:31:39,528 - CarsimAgent - INFO - Verification PASSED for OPT_ECHO_ALL_PARS: 1.0
+2026-03-05 16:31:39,528 - CarsimAgent - INFO - Task finished.
+2026-03-05 16:32:48,085 - CarsimAgent - INFO - Loaded parameter library from JSON: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\carsim_agent\carsim_hierarchical_lib.json
+2026-03-05 16:32:48,085 - CarsimAgent - INFO - 🚀 Starting agent task: '运行Carsim仿真，将车速设置为常数120 km/h, 道路摩擦系数设置为 0.6'
+2026-03-05 16:32:48,085 - CarsimAgent - INFO - Analyzing intent with LLM...
+2026-03-05 16:32:48,085 - CarsimAgent - WARNING - LLM API endpoint not configured, falling back to local parsing.
+2026-03-05 16:32:48,085 - CarsimAgent - INFO - Local parse: detected speed modification -> 120.0
+2026-03-05 16:32:48,085 - CarsimAgent - INFO - Local parse: detected friction modification -> 0.6
+2026-03-05 16:32:48,085 - CarsimAgent - INFO - Proposed modifications: {
+  "SPEED_TARGET_CONSTANT(1)": 120.0,
+  "MU_ROAD_CONSTANT(1)": 0.6,
+  "OPT_ECHO_ALL_PARS": 1
+}
+2026-03-05 16:32:48,085 - CarsimAgent - INFO - Initializing simulation runner using template path: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template
+2026-03-05 16:32:48,085 - CarsimAgent - INFO - Created workspace: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_163248
+2026-03-05 16:32:48,087 - CarsimAgent - INFO - Created parsfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_163248\Modified_Run.par
+2026-03-05 16:32:48,097 - CarsimAgent - INFO - Created simfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_163248\CarSim_Agent.sim
+2026-03-05 16:32:48,097 - CarsimAgent - INFO - Launching solver for project: Carsim_Agent_Run_20260305_163248
+2026-03-05 16:32:48,842 - CarsimAgent - INFO - Solver completed successfully
+2026-03-05 16:32:48,842 - CarsimAgent - INFO - Simulation completed successfully.
+2026-03-05 16:32:48,842 - CarsimAgent - INFO - Verifying parameter modifications in Echo file...
+2026-03-05 16:32:48,843 - CarsimAgent - INFO - Verification PASSED for SPEED_TARGET_CONSTANT(1): 120.0
+2026-03-05 16:32:48,845 - CarsimAgent - INFO - Verification PASSED for MU_ROAD_CONSTANT(1): 0.6
+2026-03-05 16:32:48,845 - CarsimAgent - INFO - Verification PASSED for OPT_ECHO_ALL_PARS: 1.0
+2026-03-05 16:32:48,845 - CarsimAgent - INFO - Task finished.
+2026-03-05 16:42:32,483 - CarsimAgent - INFO - Loaded parameter library from JSON: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\carsim_agent\carsim_hierarchical_lib.json
+2026-03-05 16:42:32,483 - CarsimAgent - INFO - 🚀 Starting agent task: '运行Carsim仿真，将车速设置为常数120 km/h, 道路摩擦系数设置为 0.6'
+2026-03-05 16:42:32,485 - CarsimAgent - INFO - Analyzing intent with LLM...
+2026-03-05 16:42:32,485 - CarsimAgent - WARNING - LLM API endpoint not configured, falling back to local parsing.
+2026-03-05 16:42:32,485 - CarsimAgent - INFO - Local parse: detected speed modification -> 120.0
+2026-03-05 16:42:32,485 - CarsimAgent - INFO - Local parse: detected friction modification -> 0.6
+2026-03-05 16:42:32,485 - CarsimAgent - INFO - Proposed modifications: {
+  "SPEED_TARGET_CONSTANT(1)": 120.0,
+  "MU_ROAD_CONSTANT(1)": 0.6,
+  "OPT_ECHO_ALL_PARS": 1
+}
+2026-03-05 16:42:32,485 - CarsimAgent - INFO - Initializing simulation runner using template path: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template
+2026-03-05 16:42:32,485 - CarsimAgent - INFO - Created workspace: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_164232
+2026-03-05 16:42:32,486 - CarsimAgent - INFO - Created parsfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_164232\Modified_Run.par
+2026-03-05 16:42:32,494 - CarsimAgent - INFO - Created simfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_164232\CarSim_Agent.sim
+2026-03-05 16:42:32,494 - CarsimAgent - INFO - Launching solver for project: Carsim_Agent_Run_20260305_164232
+2026-03-05 16:42:33,244 - CarsimAgent - INFO - Solver completed successfully
+2026-03-05 16:42:33,244 - CarsimAgent - INFO - Simulation completed successfully.
+2026-03-05 16:42:33,244 - CarsimAgent - INFO - Verifying parameter modifications against template echo...
+2026-03-05 16:42:33,246 - CarsimAgent - INFO - ✅ Parameter 'SPEED_TARGET_CONSTANT(1)': Template value = 100 km/h, New value = 120.0 km/h
+2026-03-05 16:42:33,246 - CarsimAgent - INFO - ✅ Parameter 'MU_ROAD_CONSTANT(1)': Template value = 0.75 -, New value = 0.6 -
+2026-03-05 16:42:33,246 - CarsimAgent - INFO - Task finished.
+2026-03-05 16:53:25,114 - CarsimAgent - INFO - No library JSON path provided, attempting to load default carsim_library.json
+2026-03-05 16:53:25,114 - CarsimAgent - INFO - 🚀 Starting agent task with JSON file: 'D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\mods_speed120_mu06.json'
+2026-03-05 16:53:25,116 - CarsimAgent - INFO - Loaded 3 modifications from JSON.
+2026-03-05 16:53:25,116 - CarsimAgent - INFO - Initializing simulation runner using template path: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template
+2026-03-05 16:53:25,116 - CarsimAgent - INFO - Created workspace: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_165325
+2026-03-05 16:53:25,116 - CarsimAgent - INFO - Verifying parameter modifications against template echo...
+2026-03-05 16:53:25,116 - CarsimAgent - WARNING - ❓ Parameter 'SPEED_TARGET_CONSTANT(1)' not found in template echo. It might be a new parameter.
+2026-03-05 16:53:25,116 - CarsimAgent - WARNING - ❓ Parameter 'MU_ROAD_CONSTANT(1)' not found in template echo. It might be a new parameter.
+2026-03-05 16:53:25,116 - CarsimAgent - ERROR - Modifications verification failed.
+2026-03-05 16:53:25,116 - CarsimAgent - INFO - Task stopped due to modification verification failure.
+2026-03-05 16:53:25,116 - CarsimAgent - INFO - 🚀 Starting agent task with prompt: '运行Carsim仿真，将车速设置为常数100 km/h, 道路摩擦系数设置为 0.8'
+2026-03-05 16:53:25,118 - CarsimAgent - INFO - Analyzing intent with LLM...
+2026-03-05 16:53:25,118 - CarsimAgent - WARNING - LLM API endpoint not configured, falling back to local parsing.
+2026-03-05 16:53:25,118 - CarsimAgent - INFO - Local parse: detected speed modification -> 100.0
+2026-03-05 16:53:25,118 - CarsimAgent - INFO - Local parse: detected friction modification -> 0.8
+2026-03-05 16:53:25,118 - CarsimAgent - INFO - Proposed modifications: {
+  "SPEED_TARGET_CONSTANT(1)": 100.0,
+  "MU_ROAD_CONSTANT(1)": 0.8,
+  "OPT_ECHO_ALL_PARS": 1
+}
+2026-03-05 16:53:25,118 - CarsimAgent - INFO - Initializing simulation runner using template path: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template
+2026-03-05 16:53:25,118 - CarsimAgent - INFO - Verifying parameter modifications against template echo...
+2026-03-05 16:53:25,118 - CarsimAgent - WARNING - ❓ Parameter 'SPEED_TARGET_CONSTANT(1)' not found in template echo. It might be a new parameter.
+2026-03-05 16:53:25,118 - CarsimAgent - WARNING - ❓ Parameter 'MU_ROAD_CONSTANT(1)' not found in template echo. It might be a new parameter.
+2026-03-05 16:53:25,119 - CarsimAgent - ERROR - Modifications verification failed.
+2026-03-05 16:53:25,119 - CarsimAgent - INFO - Task stopped due to modification verification failure.
+2026-03-05 16:53:46,894 - CarsimAgent - INFO - No library JSON path provided, attempting to load default carsim_library.json
+2026-03-05 16:53:46,896 - CarsimAgent - INFO - 🚀 Starting agent task with JSON file: 'D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\mods_speed120_mu06.json'
+2026-03-05 16:53:46,897 - CarsimAgent - INFO - Loaded 3 modifications from JSON.
+2026-03-05 16:53:46,897 - CarsimAgent - INFO - Initializing simulation runner using template path: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template
+2026-03-05 16:53:46,897 - CarsimAgent - INFO - Created workspace: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_165346
+2026-03-05 16:53:46,897 - CarsimAgent - INFO - Verifying parameter modifications against template echo...
+2026-03-05 16:53:46,897 - CarsimAgent - WARNING - ❓ Parameter 'SPEED_TARGET_CONSTANT(1)' not found in template echo. It will be treated as a new parameter added to Parsfile.
+2026-03-05 16:53:46,897 - CarsimAgent - WARNING - ❓ Parameter 'MU_ROAD_CONSTANT(1)' not found in template echo. It will be treated as a new parameter added to Parsfile.
+2026-03-05 16:53:46,900 - CarsimAgent - INFO - Created parsfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_165346\Modified_Run.par
+2026-03-05 16:53:46,907 - CarsimAgent - INFO - Created simfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_165346\CarSim_Agent.sim
+2026-03-05 16:53:46,907 - CarsimAgent - INFO - Launching solver for project: Carsim_Agent_Run_20260305_165346
+2026-03-05 16:53:47,665 - CarsimAgent - INFO - Solver completed successfully
+2026-03-05 16:53:47,666 - CarsimAgent - INFO - Simulation completed successfully.
+2026-03-05 16:53:47,666 - CarsimAgent - INFO - Task finished.
+2026-03-05 16:53:47,666 - CarsimAgent - INFO - 🚀 Starting agent task with prompt: '运行Carsim仿真，将车速设置为常数100 km/h, 道路摩擦系数设置为 0.8'
+2026-03-05 16:53:47,666 - CarsimAgent - INFO - Analyzing intent with LLM...
+2026-03-05 16:53:47,666 - CarsimAgent - WARNING - LLM API endpoint not configured, falling back to local parsing.
+2026-03-05 16:53:47,666 - CarsimAgent - INFO - Local parse: detected speed modification -> 100.0
+2026-03-05 16:53:47,666 - CarsimAgent - INFO - Local parse: detected friction modification -> 0.8
+2026-03-05 16:53:47,667 - CarsimAgent - INFO - Proposed modifications: {
+  "SPEED_TARGET_CONSTANT(1)": 100.0,
+  "MU_ROAD_CONSTANT(1)": 0.8,
+  "OPT_ECHO_ALL_PARS": 1
+}
+2026-03-05 16:53:47,667 - CarsimAgent - INFO - Initializing simulation runner using template path: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template
+2026-03-05 16:53:47,668 - CarsimAgent - INFO - Created workspace: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_165347
+2026-03-05 16:53:47,668 - CarsimAgent - INFO - Verifying parameter modifications against template echo...
+2026-03-05 16:53:47,668 - CarsimAgent - WARNING - ❓ Parameter 'SPEED_TARGET_CONSTANT(1)' not found in template echo. It will be treated as a new parameter added to Parsfile.
+2026-03-05 16:53:47,668 - CarsimAgent - WARNING - ❓ Parameter 'MU_ROAD_CONSTANT(1)' not found in template echo. It will be treated as a new parameter added to Parsfile.
+2026-03-05 16:53:47,669 - CarsimAgent - INFO - Created parsfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_165347\Modified_Run.par
+2026-03-05 16:53:47,672 - CarsimAgent - INFO - Created simfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_165347\CarSim_Agent.sim
+2026-03-05 16:53:47,672 - CarsimAgent - INFO - Launching solver for project: Carsim_Agent_Run_20260305_165347
+2026-03-05 16:53:48,406 - CarsimAgent - INFO - Solver completed successfully
+2026-03-05 16:53:48,406 - CarsimAgent - INFO - Simulation completed successfully.
+2026-03-05 16:53:48,406 - CarsimAgent - INFO - Task finished.
+2026-03-05 17:35:54,145 - CarsimAgent - INFO - No library JSON path provided, attempting to load default carsim_param_lib.json
+2026-03-05 17:35:54,145 - CarsimAgent - INFO - 🚀 Starting agent task with JSON file: 'D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\mods_speed120_mu06.json'
+2026-03-05 17:35:54,147 - CarsimAgent - INFO - Loaded 3 modifications from JSON.
+2026-03-05 17:35:54,147 - CarsimAgent - INFO - Initializing simulation runner using template path: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template
+2026-03-05 17:35:54,147 - CarsimAgent - INFO - Created workspace: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_173554
+2026-03-05 17:35:54,147 - CarsimAgent - INFO - Verifying parameter modifications against template echo...
+2026-03-05 17:35:54,147 - CarsimAgent - WARNING - ❓ Parameter 'SPEED_TARGET_CONSTANT(1)' not found in template echo. It will be treated as a new parameter added to Parsfile.
+2026-03-05 17:35:54,147 - CarsimAgent - WARNING - ❓ Parameter 'MU_ROAD_CONSTANT(1)' not found in template echo. It will be treated as a new parameter added to Parsfile.
+2026-03-05 17:35:54,148 - CarsimAgent - INFO - Created parsfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_173554\Modified_Run.par
+2026-03-05 17:35:54,156 - CarsimAgent - INFO - Created simfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_173554\CarSim_Agent.sim
+2026-03-05 17:35:54,156 - CarsimAgent - INFO - Launching solver for project: Carsim_Agent_Run_20260305_173554
+2026-03-05 17:35:54,940 - CarsimAgent - INFO - Solver completed successfully
+2026-03-05 17:35:54,940 - CarsimAgent - INFO - Simulation completed successfully.
+2026-03-05 17:35:54,940 - CarsimAgent - INFO - Task finished.
+2026-03-05 17:39:03,495 - CarsimAgent - INFO - No library JSON path provided, attempting to load default carsim_param_lib.json
+2026-03-05 17:39:03,497 - CarsimAgent - INFO - Loaded parameter library from JSON: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\carsim_agent\carsim_param_lib.json
+2026-03-05 17:39:03,497 - CarsimAgent - INFO - 🚀 Starting agent task with JSON file: 'valid_mods.json'
+2026-03-05 17:39:03,497 - CarsimAgent - INFO - Loaded 2 modifications from JSON.
+2026-03-05 17:39:03,497 - CarsimAgent - INFO - Initializing simulation runner using template path: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template
+2026-03-05 17:39:03,498 - CarsimAgent - INFO - Created workspace: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_173903
+2026-03-05 17:39:03,498 - CarsimAgent - INFO - Verifying parameter modifications against template echo...
+2026-03-05 17:39:03,498 - CarsimAgent - INFO - ✅ Parameter 'SPEED_TARGET_CONSTANT(1)': Template value = 100 km/h, New value = 120.0 km/h
+2026-03-05 17:39:03,498 - CarsimAgent - INFO - ✅ Parameter 'MU_ROAD_CONSTANT(1)': Template value = 0.75 -, New value = 0.6 -
+2026-03-05 17:39:03,500 - CarsimAgent - INFO - Created parsfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_173903\Modified_Run.par
+2026-03-05 17:39:03,509 - CarsimAgent - INFO - Created simfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_173903\CarSim_Agent.sim
+2026-03-05 17:39:03,509 - CarsimAgent - INFO - Launching solver for project: Carsim_Agent_Run_20260305_173903
+2026-03-05 17:39:04,258 - CarsimAgent - INFO - Solver completed successfully
+2026-03-05 17:39:04,258 - CarsimAgent - INFO - Simulation completed successfully.
+2026-03-05 17:39:04,258 - CarsimAgent - INFO - Task finished.
+2026-03-05 17:39:04,258 - CarsimAgent - INFO - 🚀 Starting agent task with JSON file: 'invalid_mods.json'
+2026-03-05 17:39:04,259 - CarsimAgent - INFO - Loaded 1 modifications from JSON.
+2026-03-05 17:39:04,259 - CarsimAgent - INFO - Initializing simulation runner using template path: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template
+2026-03-05 17:39:04,260 - CarsimAgent - INFO - Created workspace: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_173904
+2026-03-05 17:39:04,260 - CarsimAgent - INFO - Verifying parameter modifications against template echo...
+2026-03-05 17:39:04,260 - CarsimAgent - ERROR - ❌ Parameter 'NON_EXISTENT_PARAM' NOT FOUND in template echo! Cannot verify or modify unknown parameters.
+2026-03-05 17:39:04,260 - CarsimAgent - ERROR - Parameter verification FAILED. Some parameters are missing in the template or invalid.
+2026-03-05 18:04:43,657 - CarsimAgent - INFO - Loaded 346 parameters from D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template\LastRun_echo.par
+2026-03-05 18:04:43,657 - CarsimAgent - INFO - Successfully loaded base template library from: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template\LastRun_echo.par
+2026-03-05 18:04:43,658 - CarsimAgent - INFO - No library JSON path provided, attempting to load default carsim_param_lib.json
+2026-03-05 18:04:43,659 - CarsimAgent - INFO - Loaded parameter library from JSON: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\carsim_agent\carsim_param_lib.json
+2026-03-05 18:04:43,659 - CarsimAgent - INFO - Successfully loaded library from default JSON: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\carsim_agent\carsim_param_lib.json
+2026-03-05 18:04:43,659 - CarsimAgent - INFO - 🚀 Starting agent task with JSON file: 'D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\mods_speed120_mu06.json'
+2026-03-05 18:04:43,659 - CarsimAgent - INFO - Loaded 3 modifications from JSON.
+2026-03-05 18:04:43,659 - CarsimAgent - INFO - Initializing simulation runner using template path: D:\RanWei\20-技术研究\23-AI Research\AI_test\Carsim_Agent\Carsim_Simulation_Agent\Drifting_Template
+2026-03-05 18:04:43,659 - CarsimAgent - INFO - Created workspace: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_180443
+2026-03-05 18:04:43,659 - CarsimAgent - INFO - Verifying parameter modifications against base template echo...
+2026-03-05 18:04:43,659 - CarsimAgent - INFO - ✅ Parameter 'SPEED_TARGET_CONSTANT(1)': Template value = 100 km/h, New value = 120 km/h
+2026-03-05 18:04:43,659 - CarsimAgent - INFO - ✅ Parameter 'MU_ROAD_CONSTANT(1)': Template value = 0.75 -, New value = 0.6 -
+2026-03-05 18:04:43,661 - CarsimAgent - INFO - Created parsfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_180443\Modified_Run.par
+2026-03-05 18:04:43,662 - CarsimAgent - INFO - Created simfile: C:\Users\Public\Documents\CarSim2020.0_Data\Results\Carsim_Agent_Run_20260305_180443\CarSim_Agent.sim
+2026-03-05 18:04:43,662 - CarsimAgent - INFO - Launching solver for project: Carsim_Agent_Run_20260305_180443
+2026-03-05 18:04:44,401 - CarsimAgent - INFO - Solver completed successfully
+2026-03-05 18:04:44,402 - CarsimAgent - INFO - Simulation completed successfully.
+2026-03-05 18:04:44,402 - CarsimAgent - INFO - Task finished.

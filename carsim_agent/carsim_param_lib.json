@@ -1,0 +1,1768 @@
+{
+  "GENERAL": {
+    "DATASET_TITLE": {
+      "value": "Drifting_Base",
+      "unit": "",
+      "desc": ""
+    },
+    "CATEGORY": {
+      "value": "Drifting Tests",
+      "unit": "",
+      "desc": ""
+    },
+    "TITLE": {
+      "value": "Drifting_Base <Drifting Tests>",
+      "unit": "",
+      "desc": ""
+    }
+  },
+  "SYSTEM PARAMETERS (SIMULATION OPTIONS)": {
+    "ID_EVENT": {
+      "value": "0",
+      "unit": "-",
+      "desc": "ID number that can be assigned to the current event"
+    },
+    "ID_RUN": {
+      "value": "0",
+      "unit": "-",
+      "desc": "ID number that can be assigned to a simulation run"
+    },
+    "IPRINT": {
+      "value": "50",
+      "unit": "",
+      "desc": "Print interval: output time step TSTEP_WRITE = TSTEP*IPRINT;"
+    },
+    "NDIGITS_ECHO": {
+      "value": "10",
+      "unit": "",
+      "desc": "[D] Max. no. of digits for printing floating-point numbers"
+    },
+    "OPT_ALL_WRITE": {
+      "value": "0",
+      "unit": "",
+      "desc": "Write all outputs to file? 1 -> all, 0 -> only activated"
+    },
+    "OPT_BUFFER_WRITE": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Retain output data in memory buffer until end of run? 0"
+    },
+    "OPT_CHECK_MATH": {
+      "value": "2",
+      "unit": "",
+      "desc": "[D] Check for math exceptions? 2 -> as errors, 1 -> as"
+    },
+    "OPT_ECHO_ALL_PARS": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Echo all parameters in this VS Solver? 0 -> no, 1 -> yes"
+    },
+    "OPT_ECHO_ALL_UNITS": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Echo list of units and scale factors? 0 -> no, 1 -> yes"
+    },
+    "OPT_ECHO_ANI_LIVE": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Echo variables sent live to video? 0 -> no, 1 -> yes"
+    },
+    "OPT_ECHO_ICS": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Echo initial conditions? 0 -> no, 1 -> yes"
+    },
+    "OPT_ECHO_KEYWORDS_LC": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Echo all keywords in lowercase? -> 0 -> no, 1 -> yes"
+    },
+    "OPT_ECHO_WRITE": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Echo written outputs? 0 -> no, 1 -> yes"
+    },
+    "OPT_ENABLE_PYTHON": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Enable access to embedded Python? 0 -> no, 1 -> yes"
+    },
+    "OPT_ERROR_DIALOG": {
+      "value": "1",
+      "unit": "",
+      "desc": "[D] Show pop-up dialog box if fatal error occurs: 1 -> yes"
+    },
+    "OPT_ERROR_DUP_DEF": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Handle case where DEFINE_IMPORT, DEFINE_OUTPUT,"
+    },
+    "OPT_ERROR_SHOW_ALL": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Show pop-up boxes for all errors: 0 -> only show the"
+    },
+    "OPT_INT_METHOD": {
+      "value": "0",
+      "unit": "",
+      "desc": "Numerical integration method: 0 -> AB-2; 1 -> RK-2; 2 ->"
+    },
+    "OPT_LINEARIZATION": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Numerical linearization applied for: 0 -> all ODEs of"
+    },
+    "OPT_LOG_DEBUG": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Log file writing: 0 -> normal, 1 -> crash expected"
+    },
+    "OPT_LOG_VERBOSE": {
+      "value": "2",
+      "unit": "",
+      "desc": "[D] Log file verbosity: 2 -> errors + most events + parsfile"
+    },
+    "OPT_LOG_WARNINGS": {
+      "value": "1",
+      "unit": "",
+      "desc": "[D] Write warnings into log file? 1 -> yes, 0 -> no"
+    },
+    "OPT_PAUSE": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Pause at end of run with window open? 0 -> no, 1 -> yes"
+    },
+    "OPT_SKIP_INIT_DYN": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Skip initial dynamic calculations (for some RT systems)?"
+    },
+    "OPT_SORT_WRITE": {
+      "value": "1",
+      "unit": "",
+      "desc": "[D] Sort written outputs? 1 -> alphabetical, 0 -> as entered"
+    },
+    "OPT_STOP": {
+      "value": "0",
+      "unit": "",
+      "desc": "Option for stopping the run: 0 -> stop when T reaches TSTOP;"
+    },
+    "OPT_VS_FILETYPE": {
+      "value": "2",
+      "unit": "",
+      "desc": "Type of output file: 1-> 64-bit VS, 2-> 32-bit VS,3 ->"
+    },
+    "OPT_WRITE": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Write outputs when T > TSTART_WRITE? 1 -> write, 0"
+    },
+    "TSTART": {
+      "value": "0",
+      "unit": "s",
+      "desc": "Starting time for the simulation clock"
+    },
+    "TSTART_T_EVENT": {
+      "value": "0",
+      "unit": "s",
+      "desc": "[D] Event clock reset time: T_EVENT = T - TSTART_T_EVENT"
+    },
+    "TSTART_WRITE": {
+      "value": "0",
+      "unit": "s",
+      "desc": "Start writing outputs when this time is reached"
+    },
+    "TSTEP": {
+      "value": "0.0005",
+      "unit": "s",
+      "desc": "Time step for numerical integration [L]"
+    },
+    "TSTOP": {
+      "value": "30",
+      "unit": "s",
+      "desc": "Stop when this time is reached"
+    }
+  },
+  "SYSTEM CONSTANTS": {
+    "OPT_INIT_CONFIG": {
+      "value": "1",
+      "unit": "",
+      "desc": "Initialize vehicle height, pitch, roll, and deflection"
+    },
+    "OPT_INIT_SPEED": {
+      "value": "1",
+      "unit": "",
+      "desc": "Initialize vehicle speed variables? 1 -> yes, 0 -> no, start"
+    },
+    "ROLL_MAX_STOP": {
+      "value": "80",
+      "unit": "deg",
+      "desc": "[D] Maximum roll angle magnitude: stop the run if"
+    },
+    "VLOW_STOP": {
+      "value": "-1",
+      "unit": "km/h",
+      "desc": "[D] Stop the run if the absolute vehicle speed drops"
+    },
+    "R_GRAVITY": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Scale factor applied to acceleration of gravity [I]"
+    }
+  },
+  "SPRUNG MASS": {
+    "H_CG_SU": {
+      "value": "540",
+      "unit": "mm",
+      "desc": "Height of CG of sprung mass, unladen (SU) [I]"
+    },
+    "LX_CG_SU": {
+      "value": "1040",
+      "unit": "mm",
+      "desc": "X distance SU CG is behind sprung mass origin [I]"
+    },
+    "Y_CG_SU": {
+      "value": "0",
+      "unit": "mm",
+      "desc": "Y coordinate of SU CG [I]"
+    },
+    "M_SU": {
+      "value": "1134",
+      "unit": "kg",
+      "desc": "Mass of unladen sprung mass (SU) [I]"
+    },
+    "IXX_SU": {
+      "value": "440.6",
+      "unit": "kg-m2",
+      "desc": "Roll inertia for unladen sprung mass [I]"
+    },
+    "IYY_SU": {
+      "value": "1343.1",
+      "unit": "kg-m2",
+      "desc": "Pitch inertia for SU [I]"
+    },
+    "IZZ_SU": {
+      "value": "1343.1",
+      "unit": "kg-m2",
+      "desc": "Yaw inertia for SU [I]"
+    },
+    "IXY_SU": {
+      "value": "0",
+      "unit": "kg-m2",
+      "desc": "XY product of inertia for SU [I]"
+    },
+    "IXZ_SU": {
+      "value": "0",
+      "unit": "kg-m2",
+      "desc": "XZ product of inertia for SU [I]"
+    },
+    "IYZ_SU": {
+      "value": "0",
+      "unit": "kg-m2",
+      "desc": "YZ product of inertia for SU [I]"
+    }
+  },
+  "AERODYNAMICS": {
+    "D_AIR": {
+      "value": "1.206",
+      "unit": "kg/m3",
+      "desc": "Air mass density"
+    },
+    "AREA_AERO": {
+      "value": "1.6",
+      "unit": "m2",
+      "desc": "Frontal cross-section area"
+    },
+    "H_REF_AERO": {
+      "value": "0",
+      "unit": "mm",
+      "desc": "Height of aerodynamic reference point"
+    },
+    "L_REF_AERO": {
+      "value": "2600",
+      "unit": "mm",
+      "desc": "Aerodynamic reference length"
+    },
+    "X_REF_AERO": {
+      "value": "-1300",
+      "unit": "mm",
+      "desc": "X coordinate of aerodynamic reference point"
+    },
+    "Y_REF_AERO": {
+      "value": "0",
+      "unit": "mm",
+      "desc": "Y coordinate of aerodynamic reference point"
+    }
+  },
+  "SUSPENSION GEOMETRY AND INERTIA": {
+    "OPT_JNC_DESIGN(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Specify JNC_DESIGN (jounce when the wheel center is at the"
+    },
+    "L_TRACK(1)": {
+      "value": "1480",
+      "unit": "mm",
+      "desc": "Track width, wheel-center to wheel-center, axle 1 [I]"
+    },
+    "LX_AXLE(1)": {
+      "value": "0",
+      "unit": "mm",
+      "desc": "[D] X dist. axle 1 is behind the sprung-mass origin [I]"
+    },
+    "Y_CL_SUSP(1)": {
+      "value": "0",
+      "unit": "mm",
+      "desc": "Y coord. for suspension centerline, axle 1 [I]"
+    },
+    "OPT_JNC_DESIGN(2)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Specify JNC_DESIGN explicitly for axle 2? [I]"
+    },
+    "L_TRACK(2)": {
+      "value": "1485",
+      "unit": "mm",
+      "desc": "Track width, wheel-center to wheel-center, axle 2 [I]"
+    },
+    "LX_AXLE(2)": {
+      "value": "2600",
+      "unit": "mm",
+      "desc": "X dist. axle 2 is behind the sprung-mass origin [I]"
+    },
+    "Y_CL_SUSP(2)": {
+      "value": "0",
+      "unit": "mm",
+      "desc": "Y coord. for suspension centerline, axle 2 [I]"
+    }
+  },
+  "SUSPENSION SPRINGS AND DAMPERS": {
+    "OPT_SUSP_COMPLIANCE_METHOD(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "[D] Subtract offset from each compliance table to"
+    },
+    "DAUX(1)": {
+      "value": "0",
+      "unit": "N-m-s/deg",
+      "desc": "Auxiliary roll damping, axle 1"
+    },
+    "OPT_SUSP_COMPLIANCE_METHOD(2)": {
+      "value": "1",
+      "unit": "",
+      "desc": "[D] Adjust compliance tables to avoid"
+    },
+    "DAUX(2)": {
+      "value": "0",
+      "unit": "N-m-s/deg",
+      "desc": "Auxiliary roll damping, axle 2"
+    }
+  },
+  "STEERING": {
+    "OPT_M_SW_CALC": {
+      "value": "1",
+      "unit": "",
+      "desc": "Reaction torque wheel with angle input (OPT_STEER = 0): 0 ->"
+    },
+    "OPT_POWER": {
+      "value": "1",
+      "unit": "",
+      "desc": "Power steering? 0 -> No, 1 -> Rack or Gear assist, 2 ->"
+    },
+    "OPT_STEER_DEF": {
+      "value": "1",
+      "unit": "",
+      "desc": "Define steer angles of knuckles: 1 -> with respect to the"
+    },
+    "BETA_COL": {
+      "value": "0.1",
+      "unit": "deg",
+      "desc": "Ref hysteretic angle for steering column friction"
+    },
+    "D_COL": {
+      "value": "0.002",
+      "unit": "N-m-s/deg",
+      "desc": "Steering column viscous damping"
+    },
+    "D_TBAR": {
+      "value": "0",
+      "unit": "N-m-s/deg",
+      "desc": "[D] Torsion bar viscous damping"
+    },
+    "HYS_COL": {
+      "value": "0.1",
+      "unit": "N-m",
+      "desc": "Steering column friction torque"
+    },
+    "I_GEAR_IN": {
+      "value": "0.000165",
+      "unit": "kg-m2",
+      "desc": "Steering system inertia"
+    },
+    "F_BOOST_MAX": {
+      "value": "3000",
+      "unit": "N",
+      "desc": "Maximum power steering boost force"
+    },
+    "TC_BOOST": {
+      "value": "0.04",
+      "unit": "s",
+      "desc": "Time constant for power steering boost"
+    },
+    "A_STR_STOP_L": {
+      "value": "-45",
+      "unit": "deg",
+      "desc": "[D] Steer angle limit during torque control (Left)"
+    },
+    "A_STR_STOP_R": {
+      "value": "45",
+      "unit": "deg",
+      "desc": "[D] Steer angle limit during torque control (Right)"
+    },
+    "K_STR_STOP_L": {
+      "value": "0",
+      "unit": "N-m/deg",
+      "desc": "[D] Steering stop stiffness (Left)"
+    },
+    "K_STR_STOP_R": {
+      "value": "0",
+      "unit": "N-m/deg",
+      "desc": "[D] Steering stop stiffness (Right)"
+    },
+    "OPT_STEER_EXT(1)": {
+      "value": "0",
+      "unit": "",
+      "desc": "Steer model option for axle 1: 0 -> Internal model, 1 -> Not"
+    },
+    "OPT_CS(1)": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Compliance steer option, axle 1: 1 -> control L wheel, 2"
+    },
+    "OPT_RACK(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Steering gear type for axle 1: 0 -> Recirculating ball, 1 ->"
+    },
+    "BETA_RACK(1)": {
+      "value": "0.3",
+      "unit": "mm",
+      "desc": "Ref hys. displ. for steering rack friction, axle 1"
+    },
+    "D_RACK(1)": {
+      "value": "4.5",
+      "unit": "N-s/mm",
+      "desc": "Steering rack viscous damping, axle 1"
+    },
+    "HYS_RACK(1)": {
+      "value": "250",
+      "unit": "N",
+      "desc": "Steering rack hysteresis, axle 1"
+    },
+    "OPT_STEER_EXT(2)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Steer model option for axle 2: 1 -> Not steered, 0 ->"
+    }
+  },
+  "TIRES": {
+    "VLOW_DRIFT_X": {
+      "value": "0.1",
+      "unit": "km/h",
+      "desc": "[D] Low speed limit: allow near-static Fx to avoid"
+    },
+    "VLOW_DRIFT_Y": {
+      "value": "0.1",
+      "unit": "km/h",
+      "desc": "[D] Low speed limit: allow near-static Fy to avoid"
+    }
+  },
+  "BRAKES": {
+    "LOCK_BK_R_FREQ": {
+      "value": "33",
+      "unit": "-",
+      "desc": "[D] Ratio: simulation update frequency (1/dt) divided by"
+    },
+    "LOCK_BK_ZETA": {
+      "value": "2",
+      "unit": "-",
+      "desc": "[D] Torsional damping ratio of each wheel during lockup"
+    },
+    "OPT_BK_PEDAL": {
+      "value": "0",
+      "unit": "",
+      "desc": "Brake input: 0 -> pressure (M/C), 1 -> pedal force (manual),"
+    }
+  },
+  "POWERTRAIN": {
+    "OPT_PT": {
+      "value": "2",
+      "unit": "",
+      "desc": "Powertrain type: 0 -> Simple, 1 -> FWD, 2 -> RWD, 3 -> AWD,"
+    },
+    "OPT_HEV": {
+      "value": "2",
+      "unit": "",
+      "desc": "Propulsion types: 0 -> internal-combustion engine, 1 ->"
+    },
+    "OPT_MOTOR_ON_AXLE": {
+      "value": "0",
+      "unit": "",
+      "desc": "Is electric motor placed on each drive axle?: 0 -> No, a"
+    },
+    "R_MDRIVE": {
+      "value": "1",
+      "unit": "-",
+      "desc": "Multiplier for driveshaft torque acting on sprung mass"
+    },
+    "VLOW_IW": {
+      "value": "0",
+      "unit": "km/h",
+      "desc": "[D] Increase wheel spin inertia below this speed to"
+    },
+    "OPT_DIFF_INTERNAL(2)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Rear differential model: 1 -> internal, 0 -> external [I]"
+    },
+    "OPT_LOCKED_DIFF(2)": {
+      "value": "0",
+      "unit": "",
+      "desc": "Is the rear differential locked? 0 -> no, 1 -> yes [I]"
+    },
+    "LOCKED_DIFF_DAMP(2)": {
+      "value": "0.8",
+      "unit": "N-m-s/deg",
+      "desc": "Torsional damping for locked rear diff [I]"
+    },
+    "LOCKED_DIFF_K(2)": {
+      "value": "80",
+      "unit": "N-m/deg",
+      "desc": "Torsional spring rate for locked rear diff [I]"
+    },
+    "R_EFF_F_DIFF(2)": {
+      "value": "0.99",
+      "unit": "-",
+      "desc": "Forward efficiency of rear differential [I]"
+    },
+    "R_EFF_R_DIFF(2)": {
+      "value": "0.99",
+      "unit": "-",
+      "desc": "Reverse efficiency of rear differential [I]"
+    },
+    "R_GEAR_DIFF(2)": {
+      "value": "3.905",
+      "unit": "-",
+      "desc": "Gear ratio of 2nd rear differential [I]"
+    },
+    "IDS(2)": {
+      "value": "0.013",
+      "unit": "kg-m2",
+      "desc": "Spin inertia of rear driveshaft [I]"
+    },
+    "IHS_L(2)": {
+      "value": "0.009",
+      "unit": "kg-m2",
+      "desc": "Spin inertia of half left shaft, 2nd rear diff [I]"
+    },
+    "IHS_R(2)": {
+      "value": "0.009",
+      "unit": "kg-m2",
+      "desc": "Spin inertia of half right shaft, rear diff [I]"
+    },
+    "OPT_CLUTCH_DIFF(2)": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Clutch control for rear differential: 0 -> table lookup"
+    },
+    "OPT_TWIN_CLUTCH(2)": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Twin clutches on rear differential? 0 -> no, 1 -> yes"
+    }
+  },
+  "ENGINE": {
+    "INSTALL_ENGINE": {
+      "value": "",
+      "unit": "",
+      "desc": "VS Command to install an engine"
+    },
+    "OPT_THROTTLE_DELAY": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Use throttle time constants: 0 -> no, 1 -> yes"
+    },
+    "TC_PWR_HYBRID_AV": {
+      "value": "0.8",
+      "unit": "s",
+      "desc": "Time constant for hybrid/electric available power"
+    },
+    "N_BATTERY": {
+      "value": "40",
+      "unit": "-",
+      "desc": "Number of battery packs [I]"
+    },
+    "T_BATTERY_INIT": {
+      "value": "40",
+      "unit": "C",
+      "desc": "Initial battery temperature [I]"
+    },
+    "BATTERY_CHARGE_INIT": {
+      "value": "0.6",
+      "unit": "-",
+      "desc": "Initial battery charged level [I]"
+    },
+    "V_MOTOR_MIN": {
+      "value": "60",
+      "unit": "V",
+      "desc": "Minimum voltage for electric motor [I]"
+    },
+    "V_BATTERY_MIN": {
+      "value": "6",
+      "unit": "V",
+      "desc": "Minimum voltage per battery pack [I]"
+    },
+    "V_BATTERY_MAX": {
+      "value": "9",
+      "unit": "V",
+      "desc": "Maximum voltage per battery pack [I]"
+    },
+    "PWR_EV_MODE": {
+      "value": "12",
+      "unit": "kW",
+      "desc": "Maximum power allowance operated with EV mode [I]"
+    },
+    "PWR_HEV_DRV_MAX": {
+      "value": "55",
+      "unit": "kW",
+      "desc": "Maximum power available with HEV system (used by speed"
+    },
+    "KPW_PBK_HEV": {
+      "value": "16",
+      "unit": "kW/MPa",
+      "desc": "Brake power demand per master cylinder control"
+    },
+    "CF_HEV_PBK": {
+      "value": "0.08",
+      "unit": "-",
+      "desc": "[D] Control shape factor for regenerative motor power"
+    },
+    "REGEN_BRK_OFF": {
+      "value": "0.8",
+      "unit": "-",
+      "desc": "Battery charged level to turn off regenerative brake [I]"
+    },
+    "INSTALL_ELECTRIC_DRIVE_MOTORS": {
+      "value": "",
+      "unit": "",
+      "desc": "VS Command to install electric motors"
+    },
+    "IMOTOR": {
+      "value": "0.0226",
+      "unit": "kg-m2",
+      "desc": "Spin inertia of electric motor [I]"
+    },
+    "TC_MOTOR": {
+      "value": "0.05",
+      "unit": "s",
+      "desc": "Time constant for electric motor torque"
+    }
+  },
+  "REFERENCE PATHS": {
+    "DEFINE_PATHS": {
+      "value": "1",
+      "unit": "",
+      "desc": "VS Command to install reference paths"
+    },
+    "PATH_ID(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "[D] ID number for this Reference Path"
+    },
+    "OPT_PATH_START(1)": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Set initial heading and X-Y coordinates of the path? 0"
+    },
+    "OPT_PATH_LOOP(1)": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Is this path looped? 0 -> no, 1 -> yes"
+    },
+    "SPATH_START(1)": {
+      "value": "0",
+      "unit": "m",
+      "desc": "[D] Station at the start of this path"
+    },
+    "NSEGMENTS(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Number of segments in this path"
+    }
+  },
+  "ROAD SURFACES": {
+    "NROAD_DZ": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Number of ROAD_DZ datasets"
+    },
+    "DEFINE_ROADS": {
+      "value": "1",
+      "unit": "",
+      "desc": "VS Command to define road surfaces"
+    },
+    "CURRENT_ROAD_ID": {
+      "value": "1",
+      "unit": "",
+      "desc": "ROAD_ID for the vehicle during initialization [I]"
+    },
+    "ROAD_ID(1)": {
+      "value": "1",
+      "unit": "2 km Square, Mu = 0.75",
+      "desc": ""
+    },
+    "ROAD_PATH_ID(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "PATH_ID of reference path used for this road [I]"
+    },
+    "ROAD_SMAX_NEW_ID(1)": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] 0 -> No SMAX boundary, -1 -> stop if S > ROAD_SMAX, > 0"
+    },
+    "ROAD_SMIN_NEW_ID(1)": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] 0 -> No SMIN boundary, -1 -> stop if S < ROAD_SMIN, > 0"
+    },
+    "RR_SURF(1)": {
+      "value": "1",
+      "unit": "-",
+      "desc": "Tire rolling resistance surface-effect coefficient"
+    },
+    "ROAD_N_DZ(1)": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Number of ROAD_DZ layers added to the surface"
+    }
+  },
+  "DRIVER MODEL: STEERING CONTROLLER AND VEHICLE REFERENCE PATH": {
+    "N_LTARG": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Number of LTARG datasets that are used in this run"
+    },
+    "PATH_ID_DM": {
+      "value": "1",
+      "unit": "",
+      "desc": "PATH_ID of reference path for the driver and vehicle [I]"
+    },
+    "LTARG_ID_DM": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] LTARG_ID of reference LTARG for the driver model (0 ->"
+    },
+    "OPT_INIT_PATH": {
+      "value": "1",
+      "unit": "",
+      "desc": "Set Xo, Yo, and Yaw to match path PATH_ID_DM and target"
+    },
+    "OPT_DIRECTION": {
+      "value": "1",
+      "unit": "",
+      "desc": "Travel direction along path PATH_ID_DM: 0 -> set to 1 or -1"
+    },
+    "SSTART": {
+      "value": "0",
+      "unit": "m",
+      "desc": "Start the vehicle at this station on path PATH_ID_DM and"
+    },
+    "OPT_DM": {
+      "value": "0",
+      "unit": "",
+      "desc": "Driver model option: 0 -> no driver model; 1 -> use linear"
+    },
+    "OPT_STR_BY_TRQ": {
+      "value": "0",
+      "unit": "",
+      "desc": "Control by steering wheel torque? 0 -> no, 1 -> yes [I]"
+    }
+  },
+  "DRIVER MODEL: SPEED CONTROLLER": {
+    "N_SPEED_TARGET": {
+      "value": "1",
+      "unit": "",
+      "desc": "Number of SPEED_TARGET datasets for driver model, moving"
+    },
+    "INSTALL_SPEED_CONTROLLER": {
+      "value": "",
+      "unit": "",
+      "desc": "VS Command to install the built-in speed controller"
+    },
+    "OPT_SC": {
+      "value": "3",
+      "unit": "",
+      "desc": "Speed controller: 0 -> Off (open-loop), 1 - 3, target speed"
+    },
+    "OPT_AUTO_RESET_IC": {
+      "value": "1",
+      "unit": "",
+      "desc": "[D] Reset integral of speed error Vx_Err when Vx_Err changes"
+    },
+    "OPT_BK_SC": {
+      "value": "0",
+      "unit": "",
+      "desc": "[D] Braking and SC: 0 -> turn controller off while brakes"
+    },
+    "OPT_SC_ENGINE_BRAKING": {
+      "value": "0",
+      "unit": "",
+      "desc": "Use engine braking to control speed? 0 -> no, 1 -> yes"
+    },
+    "SPEED_ID_SC": {
+      "value": "1",
+      "unit": "",
+      "desc": "SPEED_TARGET_ID for speed controller [I]"
+    },
+    "SPEED_KP": {
+      "value": "0.14",
+      "unit": "s/m",
+      "desc": "[D] Speed controller: proportional control gain"
+    },
+    "SPEED_KP3": {
+      "value": "0",
+      "unit": "s3/m3",
+      "desc": "[D] Speed controller: cubic (verr^3) control gain"
+    },
+    "SPEED_KI": {
+      "value": "0.16",
+      "unit": "1/m",
+      "desc": "[D] Speed controller: integral control gain"
+    },
+    "VX_IERR_DEAD_SC": {
+      "value": "1",
+      "unit": "m",
+      "desc": "[D] Integral control deadband for auto reset"
+    }
+  },
+  "MOTION SENSORS": {
+    "GPS_REF_ALT": {
+      "value": "250",
+      "unit": "m",
+      "desc": "[D] GPS altitude when Z = 0"
+    },
+    "GPS_REF_LAT": {
+      "value": "42.231",
+      "unit": "deg",
+      "desc": "[D] GPS latitude when Y = GPS_REF_Y [I]"
+    },
+    "GPS_REF_LONG": {
+      "value": "-83.727",
+      "unit": "deg",
+      "desc": "[D] GPS longitude at GPS_REF_X and GPS_REF_Y"
+    },
+    "GPS_RANGE_Y": {
+      "value": "5000",
+      "unit": "m",
+      "desc": "[D] Range in Y allowed before a GPS reset"
+    },
+    "GPS_REF_X": {
+      "value": "0",
+      "unit": "m",
+      "desc": "[D] X coordinate at GPS_REF_LAT and GPS_REF_LONG"
+    },
+    "GPS_REF_Y": {
+      "value": "0",
+      "unit": "m",
+      "desc": "[D] Y coordinate at GPS_REF_LAT"
+    }
+  },
+  "CONFIGURABLE FUNCTIONS": {
+    "CAP_BATTERY_MAX_CONSTANT": {
+      "value": "6",
+      "unit": "A-h",
+      "desc": "Constant Battery full capacity"
+    },
+    "CAP_BATTERY_MAX_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get Battery full"
+    },
+    "CAP_BATTERY_MAX_OFFSET": {
+      "value": "0",
+      "unit": "A-h",
+      "desc": "Offset added (after gain) to get Battery full"
+    },
+    "CLUTCH_CONTROL_DIFF_CONSTANT(2)": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant normalized clutch input, rear"
+    },
+    "CLUTCH_CONTROL_DIFF_GAIN(2)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get"
+    },
+    "CLUTCH_CONTROL_DIFF_OFFSET(2)": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get normalized"
+    },
+    "CLUTCH_TORQUE_DIFF_CONSTANT(2)": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "[D] Constant available torque, rear"
+    },
+    "CLUTCH_TORQUE_DIFF_OFFSET(2)": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "Offset added (after gain) to get available"
+    },
+    "FX_AERO_SHAPING_TABLE": {
+      "value": "SPLINE_FLAT",
+      "unit": "",
+      "desc": "spline interpolation, flat-line extrapolation"
+    },
+    "FX_AERO_SHAPING_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get CFX"
+    },
+    "FX_AERO_SHAPING_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get CFX"
+    },
+    "SLIP_START_FX_AERO": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "Offset subtracted from aerodynamic slip angle"
+    },
+    "SLIP_SCALE_FX_AERO": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (aerodynamic slip angle -"
+    },
+    "FX_AERO_SHAPING_2_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant CFX2 component due to pitch"
+    },
+    "FX_AERO_SHAPING_2_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get CFX2"
+    },
+    "FX_AERO_SHAPING_2_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get CFX2"
+    },
+    "FX_AERO_SHAPING_2_COMBINE": {
+      "value": "MULTIPLY",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "FX_AERO_SHAPING_Z_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant CFX2 component due to ride height"
+    },
+    "FY_AERO_SHAPING_TABLE": {
+      "value": "SPLINE_FLAT",
+      "unit": "",
+      "desc": "spline interpolation, flat-line extrapolation"
+    },
+    "FY_AERO_SHAPING_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get CFY"
+    },
+    "FY_AERO_SHAPING_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get CFY"
+    },
+    "SLIP_START_FY_AERO": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "Offset subtracted from aerodynamic slip angle"
+    },
+    "SLIP_SCALE_FY_AERO": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (aerodynamic slip angle -"
+    },
+    "FY_AERO_SHAPING_2_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant CFY2 component due to pitch"
+    },
+    "FY_AERO_SHAPING_2_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get CFY2"
+    },
+    "FY_AERO_SHAPING_2_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get CFY2"
+    },
+    "FY_AERO_SHAPING_2_COMBINE": {
+      "value": "MULTIPLY",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "FY_AERO_SHAPING_Z_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant CFY2 component due to ride height"
+    },
+    "FZ_AERO_SHAPING_TABLE": {
+      "value": "SPLINE_FLAT",
+      "unit": "",
+      "desc": "spline interpolation, flat-line extrapolation"
+    },
+    "FZ_AERO_SHAPING_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get CFZ"
+    },
+    "FZ_AERO_SHAPING_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get CFZ"
+    },
+    "SLIP_START_FZ_AERO": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "Offset subtracted from aerodynamic slip angle"
+    },
+    "SLIP_SCALE_FZ_AERO": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (aerodynamic slip angle -"
+    },
+    "FZ_AERO_SHAPING_2_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant CFZ2 component due to pitch"
+    },
+    "FZ_AERO_SHAPING_2_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get CFZ2"
+    },
+    "FZ_AERO_SHAPING_2_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get CFZ2"
+    },
+    "FZ_AERO_SHAPING_2_COMBINE": {
+      "value": "MULTIPLY",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "FZ_AERO_SHAPING_Z_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant CFZ2 component due to ride height"
+    },
+    "F_BOOST_R_TABLE": {
+      "value": "SPLINE",
+      "unit": "",
+      "desc": "spline interpolation and extrapolation"
+    },
+    "F_BOOST_R_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get boost force"
+    },
+    "F_BOOST_R_OFFSET": {
+      "value": "0",
+      "unit": "N",
+      "desc": "Offset added (after gain) to get boost force"
+    },
+    "M_TB_START_F_BOOST": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "Offset subtracted from torsion bar torque"
+    },
+    "M_TB_SCALE_F_BOOST": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (torsion bar torque -"
+    },
+    "F_BOOST_R_COMBINE": {
+      "value": "ADD",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "F_BOOST_R_V_CONSTANT": {
+      "value": "0",
+      "unit": "N",
+      "desc": "Constant boost force component due to speed"
+    },
+    "ISHAFT_KIN_COEFFICIENT": {
+      "value": "1",
+      "unit": "",
+      "desc": "[D] Coefficient: Shaft output angle per unit intermediate"
+    },
+    "ISHAFT_KIN_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get Shaft output"
+    },
+    "ISHAFT_KIN_OFFSET": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "Offset added (after gain) to get Shaft output angle"
+    },
+    "MMOTOR_MAX_TABLE": {
+      "value": "LINEAR",
+      "unit": "",
+      "desc": "linear interpolation and extrapolation"
+    },
+    "MMOTOR_MAX_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get Motor full"
+    },
+    "MMOTOR_MAX_OFFSET": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "Offset added (after gain) to get Motor full torque"
+    },
+    "SPIN_START_M_MOTOR_MAX": {
+      "value": "0",
+      "unit": "rpm",
+      "desc": "Offset subtracted from motor speed"
+    },
+    "SPIN_SCALE_M_MOTOR_MAX": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (motor speed -"
+    },
+    "MU_ROAD_CONSTANT(1)": {
+      "value": "0.75",
+      "unit": "-",
+      "desc": "Constant MU component due to station"
+    },
+    "MU_ROAD_GAIN(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get MU"
+    },
+    "MU_ROAD_OFFSET(1)": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get MU"
+    },
+    "MU_ROAD_COMBINE(1)": {
+      "value": "ADD",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "MU_ROAD_L_CONSTANT(1)": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Constant MU component due to lateral position"
+    },
+    "MX_AERO_SHAPING_TABLE": {
+      "value": "SPLINE",
+      "unit": "",
+      "desc": "spline interpolation and extrapolation"
+    },
+    "MX_AERO_SHAPING_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get CMX"
+    },
+    "MX_AERO_SHAPING_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get CMX"
+    },
+    "SLIP_START_MX_AERO": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "Offset subtracted from aerodynamic slip angle"
+    },
+    "SLIP_SCALE_MX_AERO": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (aerodynamic slip angle -"
+    },
+    "MX_AERO_SHAPING_2_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant CMX2 component due to pitch"
+    },
+    "MX_AERO_SHAPING_2_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get CMX2"
+    },
+    "MX_AERO_SHAPING_2_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get CMX2"
+    },
+    "MX_AERO_SHAPING_2_COMBINE": {
+      "value": "MULTIPLY",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "MX_AERO_SHAPING_Z_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant CMX2 component due to ride height"
+    },
+    "MX_AUX_COEFFICIENT(1)": {
+      "value": "384",
+      "unit": "",
+      "desc": "Coefficient: auxiliary roll moment per unit relative"
+    },
+    "MX_AUX_GAIN(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get auxiliary roll"
+    },
+    "MX_AUX_OFFSET(1)": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "Offset added (after gain) to get auxiliary roll moment"
+    },
+    "ROLL_START_MX_AUX(1)": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "Offset subtracted from relative axle roll"
+    },
+    "ROLL_SCALE_MX_AUX(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (relative axle roll -"
+    },
+    "MX_AUX_COMBINE(1)": {
+      "value": "ADD",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "MX_AUX_FSTATIC_CONSTANT(1)": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "Constant auxiliary roll moment component due to"
+    },
+    "MX_AUX_COEFFICIENT(2)": {
+      "value": "251",
+      "unit": "",
+      "desc": "Coefficient: auxiliary roll moment per unit relative"
+    },
+    "MX_AUX_GAIN(2)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get auxiliary roll"
+    },
+    "MX_AUX_OFFSET(2)": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "Offset added (after gain) to get auxiliary roll moment"
+    },
+    "ROLL_START_MX_AUX(2)": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "Offset subtracted from relative axle roll"
+    },
+    "ROLL_SCALE_MX_AUX(2)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (relative axle roll -"
+    },
+    "MX_AUX_COMBINE(2)": {
+      "value": "ADD",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "MX_AUX_FSTATIC_CONSTANT(2)": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "Constant auxiliary roll moment component due to"
+    },
+    "MY_AERO_SHAPING_TABLE": {
+      "value": "SPLINE_FLAT",
+      "unit": "",
+      "desc": "spline interpolation, flat-line extrapolation"
+    },
+    "MY_AERO_SHAPING_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get CMY"
+    },
+    "MY_AERO_SHAPING_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get CMY"
+    },
+    "SLIP_START_MY_AERO": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "Offset subtracted from aerodynamic slip angle"
+    },
+    "SLIP_SCALE_MY_AERO": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (aerodynamic slip angle -"
+    },
+    "MY_AERO_SHAPING_2_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant CMY2 component due to pitch"
+    },
+    "MY_AERO_SHAPING_2_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get CMY2"
+    },
+    "MY_AERO_SHAPING_2_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get CMY2"
+    },
+    "MY_AERO_SHAPING_2_COMBINE": {
+      "value": "MULTIPLY",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "MY_AERO_SHAPING_Z_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant CMY2 component due to ride height"
+    },
+    "MZ_AERO_SHAPING_TABLE": {
+      "value": "SPLINE_FLAT",
+      "unit": "",
+      "desc": "spline interpolation, flat-line extrapolation"
+    },
+    "MZ_AERO_SHAPING_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get CMZ"
+    },
+    "MZ_AERO_SHAPING_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get CMZ"
+    },
+    "SLIP_START_MZ_AERO": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "Offset subtracted from aerodynamic slip angle"
+    },
+    "SLIP_SCALE_MZ_AERO": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (aerodynamic slip angle -"
+    },
+    "MZ_AERO_SHAPING_2_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant CMZ2 component due to pitch"
+    },
+    "MZ_AERO_SHAPING_2_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get CMZ2"
+    },
+    "MZ_AERO_SHAPING_2_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get CMZ2"
+    },
+    "MZ_AERO_SHAPING_2_COMBINE": {
+      "value": "MULTIPLY",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "MZ_AERO_SHAPING_Z_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant CMZ2 component due to ride height"
+    },
+    "M_DIFF_VISC_CONSTANT(2)": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "Constant this torque difference, rear differential"
+    },
+    "M_DIFF_VISC_OFFSET(2)": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "Offset added (after gain) to get this torque"
+    },
+    "M_TBAR_COEFFICIENT": {
+      "value": "2",
+      "unit": "",
+      "desc": "Coefficient: torsion bar torque per unit angle (N-m/deg)"
+    },
+    "M_TBAR_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get torsion bar"
+    },
+    "M_TBAR_OFFSET": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "Offset added (after gain) to get torsion bar torque"
+    },
+    "PBK_CON_CONSTANT": {
+      "value": "0",
+      "unit": "MPa",
+      "desc": "[D] Constant brake pressure"
+    },
+    "PBK_CON_OFFSET": {
+      "value": "0",
+      "unit": "MPa",
+      "desc": "Offset added (after gain) to get brake pressure"
+    },
+    "PWR_DRV_THROTTLE_COEFFICIENT": {
+      "value": "100",
+      "unit": "",
+      "desc": "Coefficient: Driving power per unit Throttle"
+    },
+    "PWR_DRV_THROTTLE_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get Driving power"
+    },
+    "PWR_DRV_THROTTLE_OFFSET": {
+      "value": "0",
+      "unit": "kW",
+      "desc": "Offset added (after gain) to get Driving power"
+    },
+    "SPIN_START_PWR_DRV_THRT": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset subtracted from Throttle pedal position"
+    },
+    "SPIN_SCALE_PWR_DRV_THRT": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (Throttle pedal position -"
+    },
+    "RACK_TRAVEL_COEFFICIENT(1)": {
+      "value": "0.1055555556",
+      "unit": "",
+      "desc": "Coefficient: rack displacement per unit"
+    },
+    "RACK_TRAVEL_GAIN(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get rack"
+    },
+    "RACK_TRAVEL_OFFSET(1)": {
+      "value": "0",
+      "unit": "mm",
+      "desc": "Offset added (after gain) to get rack displacement"
+    },
+    "ROAD_ZS_CONSTANT(1)": {
+      "value": "0",
+      "unit": "m",
+      "desc": "[D] Constant elevation"
+    },
+    "ROAD_ZS_OFFSET(1)": {
+      "value": "0",
+      "unit": "m",
+      "desc": "Offset added (after gain) to get elevation"
+    },
+    "R_CHRG_BATTERY_CARPET": {
+      "value": "2D_LINEAR",
+      "unit": "",
+      "desc": ""
+    },
+    "R_CHRG_BATTERY_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get Battery"
+    },
+    "R_CHRG_BATTERY_OFFSET": {
+      "value": "0",
+      "unit": "V2/W",
+      "desc": "Offset added (after gain) to get Battery resistance"
+    },
+    "SOC_START_R_CHRG_BATTERY": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset subtracted from Battery level state of"
+    },
+    "SOC_SCALE_R_CHRG_BATTERY": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (Battery level state of"
+    },
+    "TEMP_START_R_CHRG_BATTERY": {
+      "value": "0",
+      "unit": "C",
+      "desc": "Offset subtracted from Temperature"
+    },
+    "TEMP_SCALE_R_CHRG_BATTERY": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (Temperature -"
+    },
+    "R_DIS_BATTERY_CARPET": {
+      "value": "2D_LINEAR",
+      "unit": "",
+      "desc": ""
+    },
+    "R_DIS_BATTERY_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get Battery"
+    },
+    "R_DIS_BATTERY_OFFSET": {
+      "value": "0",
+      "unit": "V2/W",
+      "desc": "Offset added (after gain) to get Battery resistance"
+    },
+    "SOC_START_R_DIS_BATTERY": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset subtracted from Battery level state of charge"
+    },
+    "SOC_SCALE_R_DIS_BATTERY": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (Battery level state of charge"
+    },
+    "TEMP_START_R_DIS_BATTERY": {
+      "value": "0",
+      "unit": "C",
+      "desc": "Offset subtracted from Temperature"
+    },
+    "TEMP_SCALE_R_DIS_BATTERY": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (Temperature -"
+    },
+    "R_EFF_MOTOR_CARPET": {
+      "value": "2D_LINEAR",
+      "unit": "",
+      "desc": ""
+    },
+    "R_EFF_MOTOR_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get Motor"
+    },
+    "R_EFF_MOTOR_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get Motor efficiency"
+    },
+    "SPIN_START_R_EFF_MOTOR": {
+      "value": "0",
+      "unit": "rpm",
+      "desc": "Offset subtracted from motor speed"
+    },
+    "SPIN_SCALE_R_EFF_MOTOR": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (motor speed -"
+    },
+    "TORQUE_START_R_EFF_MOTOR": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "Offset subtracted from motor output torque"
+    },
+    "TORQUE_SCALE_R_EFF_MOTOR": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (motor output torque -"
+    },
+    "SPEED_TARGET_ID(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Procedure: Driving Collect"
+    },
+    "SPEED_TARGET_CONSTANT(1)": {
+      "value": "100",
+      "unit": "km/h",
+      "desc": "Constant speed component due to time"
+    },
+    "SPEED_TARGET_GAIN(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get speed"
+    },
+    "SPEED_TARGET_OFFSET(1)": {
+      "value": "0",
+      "unit": "km/h",
+      "desc": "Offset added (after gain) to get speed"
+    },
+    "SPEED_TARGET_COMBINE(1)": {
+      "value": "ADD",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "SPEED_TARGET_S_CONSTANT(1)": {
+      "value": "0",
+      "unit": "km/h",
+      "desc": "Constant speed component due to station"
+    },
+    "STEER_COMP_COEFFICIENT(1)": {
+      "value": "0.001",
+      "unit": "",
+      "desc": "Coefficient: steer per unit total kingpin moment"
+    },
+    "STEER_COMP_GAIN(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get steer"
+    },
+    "STEER_COMP_OFFSET(1)": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "Offset added (after gain) to get steer"
+    },
+    "M_KP_START_STEER_COMP(1)": {
+      "value": "0",
+      "unit": "N-m",
+      "desc": "Offset subtracted from total kingpin moment"
+    },
+    "M_KP_SCALE_STEER_COMP(1)": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (total kingpin moment -"
+    },
+    "STEER_SW_CONSTANT": {
+      "value": "70",
+      "unit": "deg",
+      "desc": "Constant steering wheel angle"
+    },
+    "STEER_SW_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get steering wheel"
+    },
+    "STEER_SW_OFFSET": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "Offset added (after gain) to get steering wheel angle"
+    },
+    "THROTTLE_ENGINE_CONSTANT": {
+      "value": "0",
+      "unit": "-",
+      "desc": "[D] Constant normalized throttle input"
+    },
+    "THROTTLE_ENGINE_OFFSET": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset added (after gain) to get normalized throttle"
+    },
+    "VOC_BATTERY_CARPET": {
+      "value": "2D_LINEAR",
+      "unit": "",
+      "desc": ""
+    },
+    "VOC_BATTERY_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get Open-circuit"
+    },
+    "VOC_BATTERY_OFFSET": {
+      "value": "0",
+      "unit": "V",
+      "desc": "Offset added (after gain) to get Open-circuit voltage"
+    },
+    "SOC_START_VOC_BATTERY": {
+      "value": "0",
+      "unit": "-",
+      "desc": "Offset subtracted from Battery level state of charge"
+    },
+    "SOC_SCALE_VOC_BATTERY": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (Battery level state of charge -"
+    },
+    "TEMP_START_VOC_BATTERY": {
+      "value": "0",
+      "unit": "C",
+      "desc": "Offset subtracted from Temperature"
+    },
+    "TEMP_SCALE_VOC_BATTERY": {
+      "value": "1",
+      "unit": "",
+      "desc": "Scale factor divided into (Temperature -"
+    },
+    "WIND_HEADING_CONSTANT": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "[D] Constant heading component due to time"
+    },
+    "WIND_HEADING_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get heading"
+    },
+    "WIND_HEADING_OFFSET": {
+      "value": "0",
+      "unit": "deg",
+      "desc": "Offset added (after gain) to get heading"
+    },
+    "WIND_HEADING_COMBINE": {
+      "value": "MULTIPLY",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "WIND_HEADING_S_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant heading component due to station"
+    },
+    "WIND_SPEED_CONSTANT": {
+      "value": "0",
+      "unit": "km/h",
+      "desc": "[D] Constant wind speed component due to time"
+    },
+    "WIND_SPEED_GAIN": {
+      "value": "1",
+      "unit": "",
+      "desc": "Gain multiplied with calculated value to get wind speed"
+    },
+    "WIND_SPEED_OFFSET": {
+      "value": "0",
+      "unit": "km/h",
+      "desc": "Offset added (after gain) to get wind speed"
+    },
+    "WIND_SPEED_COMBINE": {
+      "value": "MULTIPLY",
+      "unit": "",
+      "desc": "How to combine the two components"
+    },
+    "WIND_SPEED_S_CONSTANT": {
+      "value": "1",
+      "unit": "-",
+      "desc": "[D] Constant wind speed component due to station"
+    },
+    "Z_PROFILE_CONSTANT(1)": {
+      "value": "0",
+      "unit": "mm",
+      "desc": "[D] Constant elevation increment"
+    },
+    "Z_PROFILE_OFFSET(1)": {
+      "value": "0",
+      "unit": "mm",
+      "desc": "Offset added (after gain) to get elevation increment"
+    },
+    "Z_PROFILE_CONSTANT(2)": {
+      "value": "0",
+      "unit": "mm",
+      "desc": "[D] Constant elevation increment"
+    },
+    "Z_PROFILE_OFFSET(2)": {
+      "value": "0",
+      "unit": "mm",
+      "desc": "Offset added (after gain) to get elevation increment"
+    }
+  }
+}
