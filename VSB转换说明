@@ -1,0 +1,29 @@
+def export_vs_to_csv_with_par(vs_file_path, par_file_path):
+    exe_path = r"C:\Path_to_CarSim\Programs\erdconverter.exe"
+    
+    # -b: 输入文件 [cite: 496]
+    # -a: 加载包含通道信息的 PAR 文件 [cite: 507]
+    # -c: 输出为 Excel CSV 格式 
+    command = [exe_path, "-b", vs_file_path, "-a", par_file_path, "-c"]
+    
+    subprocess.run(command)
+
+# 调用示例 [cite: 513]
+# export_vs_to_csv_with_par("MyData.vs", "MyData_all.par")
+
+
+关键参数说明：
+
+-b: 指定要转换的 .vs 或 .erd 数据文件 。
+
+
+-i: 加载预先保存的 .cvt_cfg 配置文件，该文件定义了具体的转换设置（包括选定的变量） 。
+
+
+-a: 加载 allparfile（通常是 *_all.par），它包含了通道（变量）选择信息 。
+
+
+-c: 强制输出格式为 CSV 。
+
+
+注意：运行此脚本时，后台必须运行着 VS Browser（如 CarSim 软件），否则工具无法正常工作

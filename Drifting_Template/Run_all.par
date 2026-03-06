@@ -6,7 +6,7 @@ PARSFILE
 ! It contains the contents of that file plus the contents of any files linked
 ! with the "PARSFILE" keyword.
 
-! File created: 09:10 on March 05, 2026 by CarSim 2020.0
+! File created: 15:57 on March 06, 2026 by CarSim 2020.0
 
 PRODUCT_NAME CarSim
 
@@ -55,6 +55,7 @@ SET_FIELD_OF_VIEW 18
 LOG_ENTRY Used Dataset: Animator: Camera Setup; { Vehicle Reference } 0 Azm, 1 El, 37 m
 EXIT_PARSFILE Animator\Cameras\Camera_f672fe6b-6162-4c2f-8df7-54285c2c5a0f.par
 
+SET_RUN_COLOR 0 0.4 0.004
 RT_WINDOW_CLOSE off
 LIVE_SERVER_MAX_CONNECTIONS 0
 ENTER_PARSFILE Vehicles\Assembly\Vehicle_fd2e27a4-6bef-400e-a9e5-24bd98e6baec.par
@@ -3075,6 +3076,7 @@ SET_OFFSET_Z 0.27
 set_lighting on
 set_fogging on
 USE_RUN_COLOR
+SET_COLOR 0 0.4 0.004
 SET_SPECULAR 1 1 1
 vsv_enable_shadows_recursive
 LOG_ENTRY Used Dataset: Animator: Shape File Link; { Cars: B-Class } Hatchback: Body
@@ -4009,6 +4011,7 @@ EXIT_PARSFILE Plot\Setup\Plot_4e56afb6-6de8-41b6-aaf4-1c1f35754a0f.par
 LOG_ENTRY Used Dataset: Procedures; { Drifting Test } Driving Collect
 EXIT_PARSFILE Procedures\Proc_7f5cb20e-68e1-470a-9b3b-f05f587b082f.par
 
+OPT_VS_FILETYPE 4
 DELETE_PLOT_GROUP default
 PLOT_GROUP default
 ENTER_PARSFILE Plot\Setup\Plot_524651b7-2aef-4508-a7d9-bacf179c79a1.par
@@ -4074,6 +4077,7 @@ END_ENTITY Plot
 LOG_ENTRY Used Dataset: Plot: Setup; { Drifting Plot } R2 Tire Slip Angle
 EXIT_PARSFILE Plot\Setup\Plot_42409e54-16b6-436a-aa29-2521b50ebfea.par
 
+OPT_ALL_WRITE 1
 WRITE_SENSOR_DETECT
 Title Drifting_Base <Drifting Tests>
 CATEGORY Drifting Tests

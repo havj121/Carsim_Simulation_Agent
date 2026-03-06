@@ -8,7 +8,7 @@ CATEGORY Drifting Tests
 TITLE Drifting_Base <Drifting Tests>
 
 ! Echo: Results\Run_4df90ea9-2b3f-4916-84f7-8d33fe413b8f\LastRun_echo.par
-! This run was made 09:10 on March 05, 2026.
+! This run was made 15:57 on March 06, 2026.
 
 !------------------------------------------------------------------------------------
 ! SYSTEM PARAMETERS (SIMULATION OPTIONS)
@@ -25,8 +25,8 @@ NDIGITS_ECHO       10 ! [D] Max. no. of digits for printing floating-point numbe
 ! NIMPORT           0 ! Number of variables activated for import (read only)
 ! NOUT_ANI_LIVE    32 ! Number of variables sent live to animators (read only)
 ! NOUT_EXPORT       0 ! Number of output variables activated for export (read only)
-! NOUT_WRITE       64 ! Number of output variables written to file (read only)
-OPT_ALL_WRITE       0 ! Write all outputs to file? 1 -> all, 0 -> only activated
+! NOUT_WRITE      654 ! Number of output variables written to file (read only)
+OPT_ALL_WRITE       1 ! Write all outputs to file? 1 -> all, 0 -> only activated
                       ! outputs
 OPT_BUFFER_WRITE    0 ! [D] Retain output data in memory buffer until end of run? 0
                       ! -> no, write immediately to file, 1 -> yes, buffer during
@@ -67,7 +67,7 @@ OPT_SORT_WRITE      1 ! [D] Sort written outputs? 1 -> alphabetical, 0 -> as ent
 OPT_STOP            0 ! Option for stopping the run: 0 -> stop when T reaches TSTOP;
                       ! 1 -> stop when T reaches TSTOP or station reaches SSTOP; -1
                       ! -> run until stopped using VS Commands or external control
-OPT_VS_FILETYPE     2 ! Type of output file: 1-> 64-bit VS, 2-> 32-bit VS,3 ->
+OPT_VS_FILETYPE     4 ! Type of output file: 1-> 64-bit VS, 2-> 32-bit VS,3 ->
                       ! 32-bit ERD, 4 -> text CSV (no binary), 0 -> no output file
 OPT_WRITE           1 ; - ! [D] Write outputs when T > TSTART_WRITE? 1 -> write, 0
                       ! -> don't write; change this using VS Commands or Events

@@ -53,9 +53,9 @@
       "desc": "[D] Check for math exceptions? 2 -> as errors, 1 -> as"
     },
     "OPT_ECHO_ALL_PARS": {
-      "value": "0",
+      "value": "1",
       "unit": "",
-      "desc": "[D] Echo all parameters in this VS Solver? 0 -> no, 1 -> yes"
+      "desc": "Echo all parameters in this VS Solver? 0 -> no, 1 -> yes"
     },
     "OPT_ECHO_ALL_UNITS": {
       "value": "0",
@@ -88,9 +88,9 @@
       "desc": "[D] Enable access to embedded Python? 0 -> no, 1 -> yes"
     },
     "OPT_ERROR_DIALOG": {
-      "value": "1",
+      "value": "0",
       "unit": "",
-      "desc": "[D] Show pop-up dialog box if fatal error occurs: 1 -> yes"
+      "desc": "Show pop-up dialog box if fatal error occurs: 1 -> yes"
     },
     "OPT_ERROR_DUP_DEF": {
       "value": "0",
@@ -1145,7 +1145,7 @@
       "desc": "Scale factor divided into (motor speed -"
     },
     "MU_ROAD_CONSTANT(1)": {
-      "value": "0.75",
+      "value": "0.8",
       "unit": "-",
       "desc": "Constant MU component due to station"
     },
