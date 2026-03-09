@@ -10,9 +10,10 @@ class CarsimLogger:
             cls._instance = super(CarsimLogger, cls).__new__(cls)
             cls._instance.logger = None
             cls._instance.log_dir = None
+            cls._instance.current_log_path = None
         return cls._instance
 
-    def setup(self, log_dir=None, log_filename=None):
+    def setup(self, log_dir=None, log_filename=None, mode='w'):
         """Initialize or re-initialize the logger with a specific file."""
         # Use absolute path for log_dir to ensure it works from any CWD
         if log_dir is None:
@@ -21,14 +22,16 @@ class CarsimLogger:
             project_root = os.path.dirname(os.path.dirname(current_file_dir))
             log_dir = os.path.join(project_root, "logs")
         else:
+            # Ensure it's absolute
             if not os.path.isabs(log_dir):
-                current_file_dir = os.path.dirname(os.path.abspath(__file__))
-                project_root = os.path.dirname(os.path.dirname(current_file_dir))
-                log_dir = os.path.abspath(os.path.join(project_root, log_dir))
+                log_dir = os.path.abspath(log_dir)
 
         self.log_dir = log_dir
         if not os.path.exists(log_dir):
-            os.makedirs(log_dir)
+            try:
+                os.makedirs(log_dir, exist_ok=True)
+            except Exception as e:
+                print(f"Error creating log directory: {e}")
 
         if log_filename is None:
             now = datetime.now()
@@ -37,6 +40,7 @@ class CarsimLogger:
             log_filename = f"carsim_agent_{timestamp}.log"
             
         log_path = os.path.join(log_dir, log_filename)
+        self.current_log_path = log_path
         
         self.logger = logging.getLogger("CarsimAgent")
         self.logger.setLevel(logging.INFO)
@@ -48,11 +52,14 @@ class CarsimLogger:
         
         # Create file handler
         try:
-            fh = logging.FileHandler(log_path, mode='w', encoding='utf-8')
+            # For multi-processing safety in simple cases, we can use 'a' mode
+            # and rely on OS file locking for small writes, but a QueueHandler 
+            # would be better for complex multi-process logging.
+            fh = logging.FileHandler(log_path, mode=mode, encoding='utf-8')
             fh.setLevel(logging.INFO)
             
             # Create formatter
-            formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+            formatter = logging.Formatter('%(asctime)s - [%(process)d] - %(name)s - %(levelname)s - %(message)s')
             fh.setFormatter(formatter)
             
             # Add handler to logger
@@ -61,9 +68,10 @@ class CarsimLogger:
             print(f"Error setting up log file: {e}")
 
     def log(self, message, level="INFO"):
+        # 避免自动 setup，如果没有初始化则只打印到控制台，不生成文件
         if self.logger is None:
-            # Fallback to a default setup if not already initialized
-            self.setup()
+            print(f"{level.upper()}: {message}")
+            return
             
         if level.upper() == "INFO":
             self.logger.info(message)
@@ -76,12 +84,23 @@ class CarsimLogger:
         else:
             self.logger.info(message)
 
+    def close(self):
+        """Close all handlers."""
+        if self.logger:
+            for handler in self.logger.handlers[:]:
+                handler.close()
+                self.logger.removeHandler(handler)
+
 # Create a default logger instance
 logger_instance = CarsimLogger()
 
-def setup_logger(log_dir=None, log_filename=None):
+def setup_logger(log_dir=None, log_filename=None, mode='w'):
     """External function to trigger new log file generation."""
-    logger_instance.setup(log_dir, log_filename)
+    logger_instance.setup(log_dir, log_filename, mode=mode)
+
+def close_logger():
+    """External function to close the logger."""
+    logger_instance.close()
 
 def log_info(message):
     logger_instance.log(message, "INFO")
@@ -94,3 +113,7 @@ def log_warning(message):
 def log_error(message):
     logger_instance.log(message, "ERROR")
     print(f"ERROR: {message}")
+
+def get_current_log_path():
+    """Get the path to the current log file."""
+    return logger_instance.current_log_path

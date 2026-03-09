@@ -8,11 +8,14 @@ from .config import CARSIM_PROGRAM_PATH, CARSIM_SOLVER_PATH, CARSIM_DATA_DIR, CA
 from .utils.logger import log_info, log_warning, log_error
 
 class CarsimSimulationRunner:
-    def __init__(self, template_dir: str):
+    def __init__(self, template_dir: str, task_id: str = None, results_base_dir: str = None):
         self.template_dir = template_dir
-        self.timestamp = time.strftime('%Y%m%d_%H%M%S', time.localtime())
+        self.timestamp = task_id if task_id else time.strftime('%Y%m%d_%H%M%S_%f', time.localtime())
         self.project_name = f"Carsim_Agent_Run_{self.timestamp}"
-        self.results_path = os.path.join(CARSIM_RESULTS_DIR, self.project_name)
+        
+        # 使用传入的根目录或默认 Results 目录
+        base_dir = results_base_dir if results_base_dir else CARSIM_RESULTS_DIR
+        self.results_path = os.path.join(base_dir, self.project_name)
         
         # 文件路径定义
         self.run_par = os.path.join(self.results_path, "Modified_Run.par")

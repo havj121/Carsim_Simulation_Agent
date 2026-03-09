@@ -14,6 +14,7 @@ if __name__ == "__main__":
     print("\n--- Testing JSON Mode ---")
     try:
         agent.run(mods_json_path=json_path)
+        
     except Exception as e:
         print(f"JSON Mode failed as expected: {e}")
     

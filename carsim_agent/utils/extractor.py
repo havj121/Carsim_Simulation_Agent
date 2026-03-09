@@ -10,6 +10,7 @@ class VSBExtractor:
     """
     def __init__(self, erd_converter_path: str = ERD_CONVERTER_PATH):
         self.converter_path = erd_converter_path
+        self.default_target_vars = ["Time", "Vx", "Steer_SW", "Fx_L2", "Fy_L2", "Fx_R2", "Fy_R2", "Alpha_R2", "Kappa_R2"]
 
     def extract_to_csv(self, file_path: str, output_csv: str = None, target_vars: list = None, method: str = "csv") -> str:
         """
@@ -22,7 +23,7 @@ class VSBExtractor:
         """
         if target_vars is None:
             # 若未指定变量，使用默认列表
-            target_vars = ["Time", "VX", "Steer_SW", "Fx_L2", "Fy_L2", "Fx_R2", "Fy_R2", "Alpha_R2", "Kappa_R2"]
+            target_vars = self.default_target_vars
             log_info(f"Target variables not specified, using default: {target_vars}")
 
         log_info(f"🔍 Starting data extraction from: {file_path} using method: {method}")
