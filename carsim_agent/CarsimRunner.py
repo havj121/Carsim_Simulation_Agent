@@ -1,5 +1,6 @@
 import os
-import time
+import time  # pyright: ignore[reportUnusedImport]
+from datetime import datetime
 import shutil
 import subprocess
 import re
@@ -10,7 +11,7 @@ from .utils.logger import log_info, log_warning, log_error
 class CarsimSimulationRunner:
     def __init__(self, template_dir: str, task_id: str = None, results_base_dir: str = None):
         self.template_dir = template_dir
-        self.timestamp = task_id if task_id else time.strftime('%Y%m%d_%H%M%S_%f', time.localtime())
+        self.timestamp = task_id if task_id else datetime.now().strftime('%Y%m%d_%H%M%S_%f')
         self.project_name = f"Carsim_Agent_Run_{self.timestamp}"
         
         # 使用传入的根目录或默认 Results 目录

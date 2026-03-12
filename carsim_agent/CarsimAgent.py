@@ -19,7 +19,7 @@ class CarsimAgent:
             # 是否提取数据
             self.extract_data = True
             # 默认提取变量列表
-            self.default_extract_vars = ["Time", "VX", "Steer_SW", "Fx_L2", "Fy_L2", "Fx_R2", "Fy_R2", "Alpha_R2", "Kappa_R2"]
+            self.default_extract_vars = ["Time", "Vx", "Steer_SW", "Fx_L2", "Fy_L2", "Fx_R2", "Fy_R2", "Alpha_R2", "Kappa_R2"]
             # 数据提取方式: "csv" (读取 LastRun.csv) 或 "vsb" (转换 vsb/vs)
             self.extraction_method = "csv"
             # 是否保留每个任务的详细结果文件夹 (默认为 True)
