@@ -163,6 +163,82 @@ class CarsimAgent:
         log_info(f"\n✅ Batch simulation finished. Summary saved to: {summary_file}")
         return results
 
+    def get_simulation_data(self, batch_configs: List[Dict[str, Any]], target_vars: List[str] = None, processes: int = 4):
+        """
+        运行批量仿真并提取指定数据。
+        """
+        if target_vars:
+            self.options.default_extract_vars = target_vars
+        
+        self.options.run_mode = "mods"
+        self.options.extract_data = True
+        self.options.keep_detailed_results = True
+        self.options.extraction_method = "csv"
+        
+        results = self.run_batch(batch_configs, processes=processes)
+        
+        # 显式确保数据已提取
+        for res in results:
+            if res.get("status") == "success":
+                res_path = res.get("results_path")
+                csv_path = os.path.join(res_path, "LastRun.csv")
+                if os.path.exists(csv_path):
+                    self.extractor.extract_to_csv(csv_path, target_vars=self.options.default_extract_vars, method="csv")
+        
+        return results
+
+    @staticmethod
+    def load_historical_data(batch_run_dir: str, required_vars: List[str] = None):
+        """
+        从指定的仿真目录加载历史数据。
+        优先读取 batch_results_summary.json，若数据缺失则尝试读取各任务的 LastRun.csv。
+        """
+        summary_path = os.path.join(batch_run_dir, "batch_results_summary.json")
+        if not os.path.exists(summary_path):
+            raise FileNotFoundError(f"Summary file not found at {summary_path}")
+        
+        with open(summary_path, 'r', encoding='utf-8') as f:
+            batch_results = json.load(f)
+        
+        # 如果没有提供 required_vars，则使用一个基础的默认列表
+        if required_vars is None:
+            required_vars = ["Time", "Vx", "Alpha_L1", "Fz_L1", "Fy_L1"]
+
+        for i, res in enumerate(batch_results):
+            data_missing = False
+            if not res.get("extracted_data"):
+                data_missing = True
+            else:
+                import pandas as pd
+                df_temp = pd.DataFrame(res["extracted_data"])
+                if not all(col in df_temp.columns for col in required_vars):
+                    data_missing = True
+            
+            if data_missing:
+                task_id = res.get("task_id", f"Task_{i}")
+                possible_task_dirs = [
+                    os.path.join(batch_run_dir, f"Carsim_Agent_Run_{task_id}"),
+                    os.path.join(batch_run_dir, task_id),
+                    os.path.join(batch_run_dir, f"Carsim_Agent_Run_Task_{i}")
+                ]
+                
+                csv_found = False
+                for task_dir in possible_task_dirs:
+                    if os.path.exists(task_dir):
+                        csv_path = os.path.join(task_dir, "LastRun.csv")
+                        if os.path.exists(csv_path):
+                            log_info(f"🔄 Data missing in JSON for {task_id}, loading from CSV: {csv_path}")
+                            import pandas as pd
+                            df_csv = pd.read_csv(csv_path)
+                            res["extracted_data"] = df_csv.to_dict(orient='list')
+                            csv_found = True
+                            break
+                
+                if not csv_found:
+                    log_warning(f"⚠️ Warning: Task directory or LastRun.csv for {task_id} not found.")
+
+        return batch_results
+
     def _execute_simulation_workflow(self, mods: Dict[str, Any], extract_data: bool = False, extract_vars: list = None, task_id: str = None, results_base_dir: str = None):
         """
         核心仿真流水线逻辑：验证、生成配置、运行、数据提取。

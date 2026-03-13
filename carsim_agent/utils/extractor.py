@@ -10,7 +10,9 @@ class VSBExtractor:
     """
     def __init__(self, erd_converter_path: str = ERD_CONVERTER_PATH):
         self.converter_path = erd_converter_path
-        self.default_target_vars = ["Time", "Vx", "Steer_SW", "Fx_L2", "Fy_L2", "Fx_R2", "Fy_R2", "Alpha_R2", "Kappa_R2"]
+        self.default_target_vars = [
+            "Time", "Alpha_L1", "Alpha_R1", "Alpha_L2", "Alpha_R2", "Fz_L1", "Fz_R1", "Fz_L2", "Fz_R2", "Fy_L1", 
+            "Fy_R1", "Fy_L2", "Fy_R2", "Vx", "Beta", "AV_Y"]
 
     def extract_to_csv(self, file_path: str, output_csv: str = None, target_vars: list = None, method: str = "csv") -> str:
         """

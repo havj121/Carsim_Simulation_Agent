@@ -9,230 +9,276 @@ import json
 from carsim_agent import CarsimAgent
 
 # ==========================================
-# 1. 获取 CarSim 仿真数据 (批量仿真)
-# ==========================================
-def get_carsim_tire_data(template_dir):
-    # 实例化 Agent
-    agent = CarsimAgent(template_path=template_dir)
-    
-    # 目标提取变量
-    target_vars = [
-        "Time", 
-        "Alpha_L1", "Alpha_R1", "Alpha_L2", "Alpha_R2",
-        "Fz_L1", "Fz_R1", "Fz_L2", "Fz_R2",
-        "Fy_L1", "Fy_R1", "Fy_L2", "Fy_R2",
-        "Vx", "Beta", "AV_Y"
-    ]
-    
-    agent.options.run_mode = "mods"
-    agent.options.extract_data = True
-    # 关键：显式设置提取变量
-    agent.options.default_extract_vars = target_vars
-    agent.options.keep_detailed_results = True
-    agent.options.delete_sim_files = False
-    
-    # 手动设置提取方式为 CSV
-    agent.options.extraction_method = "csv"
-    
-    # 加载批量仿真配置
-    batch_mods_path = "batch_mods.json"
-    if not os.path.exists(batch_mods_path):
-        # 如果不存在，报错
-        raise FileNotFoundError(f"Batch configuration file {batch_mods_path} not found. "
-                                "Please create it with the required format.")
-    
-    with open(batch_mods_path, 'r') as f:
-        batch_configs = json.load(f)
-        
-    print(f"🚀 Running BATCH CarSim simulation ({len(batch_configs)} tasks) to collect tire data...")
-    # 运行批量仿真，显式传递 extract_vars
-    results = agent.run_batch(batch_configs, processes=4)
-    
-    # 重新检查结果并显式从 CSV 提取，如果 run_batch 的 extract_vars 逻辑有问题
-    for res in results:
-        if res.get("status") == "success":
-            res_path = res.get("results_path")
-            csv_path = os.path.join(res_path, "LastRun.csv")
-            if os.path.exists(csv_path):
-                # 重新提取所需的变量
-                agent.extractor.extract_to_csv(csv_path, target_vars=target_vars, method="csv")
-    
-    return results
-
-def process_carsim_batch_results(batch_results):
-    """
-    处理来自 agent.run_batch 的结果列表 (内存中的数据或 CSV 路径)
-    按轮胎分离数据: {'L1': (X_z, X_feat, Y_fy), ...}
-    """
-    tire_data = {tire: {'X_z': [], 'X_feat': [], 'Y_fy': []} for tire in ['L1', 'R1', 'L2', 'R2']}
-    
-    # 由于 get_carsim_tire_data 现在总是返回 results 列表
-    for res in batch_results:
-        # 优先从重新提取的 _extracted.csv 读取，因为内存中的数据可能列不全
-        if res.get("status") == "success" and res.get("results_path"):
-            extracted_csv = os.path.join(res.get("results_path"), "LastRun_extracted.csv")
-            if os.path.exists(extracted_csv):
-                print(f"Processing task {res.get('task_id')} from Extracted CSV: {extracted_csv}")
-                df = pd.read_csv(extracted_csv)
-                _extract_from_df(df, tire_data)
-                continue
-                
-        if res.get("status") == "success" and res.get("extracted_data"):
-            print(f"Processing task {res.get('task_id')} from memory...")
-            df = pd.DataFrame(res.get("extracted_data"))
-            _extract_from_df(df, tire_data)
-        elif res.get("status") == "success" and res.get("results_path"):
-            # 兜底：如果内存中没有，尝试从原始文件读取
-            csv_path = os.path.join(res.get("results_path"), "LastRun.csv")
-            if os.path.exists(csv_path):
-                print(f"Processing task {res.get('task_id')} from Original CSV: {csv_path}")
-                df = pd.read_csv(csv_path)
-                _extract_from_df(df, tire_data)
-            
-    # 转换为 numpy 数组
-    final_tire_data = {}
-    for tire, data in tire_data.items():
-        final_tire_data[tire] = (
-            np.array(data['X_z']),
-            np.array(data['X_feat']),
-            np.array(data['Y_fy'])
-        )
-            
-    return final_tire_data
-
-def _extract_from_df(df, tire_data):
-    for tire in tire_data.keys():
-        # 批量仿真可能没有提取所有列，需要检查
-        required_cols = [f'Alpha_{tire}', f'Fz_{tire}', f'Fy_{tire}', 'Vx', 'Beta', 'AV_Y']
-        if not all(col in df.columns for col in required_cols):
-            print(f"Warning: Missing columns for tire {tire} in data: {[col for col in required_cols if col not in df.columns]}")
-            continue
-            
-        alpha_rad = df[f'Alpha_{tire}'].values * (np.pi / 180.0)
-        fz = df[f'Fz_{tire}'].values
-        fy = df[f'Fy_{tire}'].values
-        v = df['Vx'].values / 3.6
-        beta = df['Beta'].values * (np.pi / 180.0)
-        r = df['AV_Y'].values * (np.pi / 180.0)
-        
-        z = np.tan(alpha_rad)
-        
-        for i in range(len(df)):
-            tire_data[tire]['X_z'].append([z[i]])
-            tire_data[tire]['X_feat'].append([v[i], beta[i], r[i], fz[i]])
-            tire_data[tire]['Y_fy'].append([fy[i]])
-
-# ==========================================
-# 2. Neural-ExpTanh 模型定义 
+# 1. Neural-ExpTanh 模型定义 
 # ==========================================
 class NeuralExpTanhTire(nn.Module):
-    def __init__(self, feature_dim=4):
+    def __init__(self, tire_id="L1", input_vars=["Vx", "Beta", "AV_Y", "Fz"], output_vars=["Fy"]):
         super(NeuralExpTanhTire, self).__init__()
-        # MLP 分支：预测 ExpTanh 的 5 个系数
+        self.tire_id = tire_id
+        # 默认输入变量（MLP输入，不包含核心 tan(alpha)）
+        self.input_vars = input_vars 
+        # 默认输出变量（每个输出对应一组 5 个 ExpTanh 系数）
+        self.output_vars = output_vars
+        
+        # 物理约束相关参数
+        self.mu_var = "MU" # 附着系数
+        self.fz_var = "Fz" # 垂直载荷
+        self.alpha_var = "Alpha" #  slip angle
+        
+        # 自动配置 MLP 维度
+        self._build_model()
+        
+        # 训练所需数据
+        self.X_z = None     # tan(alpha)
+        self.X_feat = None  # MLP 输入特征
+        self.Y_targets = None # 输出目标
+        self.MU = None      
+        self.Fz = None      
+        
+        # 训练历史
+        self.history = {'epoch': [], 'loss': [], 'loss_mse': [], 'loss_phys': []}
+
+    def _build_model(self):
+        """根据输入输出变量配置，构建 MLP 网络"""
+        in_dim = len(self.input_vars)
+        # 每个输出变量需要 5 个系数来描述其 ExpTanh 曲线
+        out_dim = len(self.output_vars) * 5
+        
         self.mlp = nn.Sequential(
-            nn.Linear(feature_dim, 32),
+            nn.Linear(in_dim, 64),
             nn.Tanh(),
-            nn.Linear(32, 32),
+            nn.Linear(64, 64),
             nn.Tanh(),
-            nn.Linear(32, 5) 
+            nn.Linear(64, out_dim) 
         )
 
+    def set_vars(self, input_vars=None, output_vars=None):
+        """动态修改输入/输出变量，并重新构建模型"""
+        if input_vars is not None:
+            self.input_vars = input_vars
+        if output_vars is not None:
+            self.output_vars = output_vars
+        self._build_model()
+        print(f"🔄 Model reconfigured for {self.tire_id}: Inputs={self.input_vars}, Outputs={self.output_vars}")
+
     def forward(self, z, feat):
-        coeffs = self.mlp(feat)
-        c1 = coeffs[:, 0:1]
-        c2 = coeffs[:, 1:2]
-        c3 = torch.exp(coeffs[:, 2:3]) # 保证非负 
-        c4 = torch.exp(coeffs[:, 3:4]) # 保证非负
-        c5 = coeffs[:, 4:5]
+        """
+        z: tan(alpha) - shape (N, 1)
+        feat: 其他特征输入 - shape (N, in_dim)
+        """
+        all_coeffs = self.mlp(feat) # shape (N, num_outputs * 5)
         
-        # ExpTanh 核心公式: Fy = c1 + c2 * exp(-c3*|z|) * tanh(c4*(z - c5))
-        term_exp = torch.exp(-c3 * torch.abs(z))
-        term_tanh = torch.tanh(c4 * (z - c5))
-        fy_pred = c1 + c2 * term_exp * term_tanh
-        return fy_pred
-
-# ==========================================
-# 3. 运行主流程
-# ==========================================
-def run_tire_modeling():
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    template_dir = os.path.join(current_dir, "Drifting_Template")
-    
-    # 1. 获取仿真数据
-    try:
-        batch_results = get_carsim_tire_data(template_dir)
-        tire_data_dict = process_carsim_batch_results(batch_results)
-    except Exception as e:
-        print(f"Error getting CarSim data: {e}")
-        return
-
-    # 准备存储模型和验证结果
-    models = {}
-    verification_results = {}
-
-    # 遍历每个轮胎进行训练
-    for tire, (X_z, X_feat, Y_fy) in tire_data_dict.items():
-        if len(X_z) == 0:
-            print(f"No data for tire {tire}, skipping...")
-            continue
+        predictions = []
+        for i in range(len(self.output_vars)):
+            # 提取该输出对应的 5 个系数
+            start_idx = i * 5
+            c1 = all_coeffs[:, start_idx : start_idx+1]
+            c2 = all_coeffs[:, start_idx+1 : start_idx+2]
+            c3 = torch.exp(all_coeffs[:, start_idx+2 : start_idx+3]) # 非负
+            c4 = torch.exp(all_coeffs[:, start_idx+3 : start_idx+4]) # 非负
+            c5 = all_coeffs[:, start_idx+4 : start_idx+5]
             
-        print(f"\n>>> Training model for tire: {tire} (Samples: {len(X_z)})")
-        
-        # 数据缩放
-        feat_mean = X_feat.mean(axis=0)
-        feat_std = X_feat.std(axis=0)
-        feat_std[feat_std == 0] = 1.0
-        X_feat_scaled = (X_feat - feat_mean) / feat_std
+            # ExpTanh 公式
+            term_exp = torch.exp(-c3 * torch.abs(z))
+            term_tanh = torch.tanh(c4 * (z - c5))
+            pred = c1 + c2 * term_exp * term_tanh
+            predictions.append(pred)
+            
+        return torch.cat(predictions, dim=1) # shape (N, num_outputs)
+
+    def set_data(self, X_z, X_feat, Y_targets, MU, Fz):
+        self.X_z = X_z
+        self.X_feat = X_feat
+        self.Y_targets = Y_targets
+        self.MU = MU
+        self.Fz = Fz
+
+    def train_model(self, epochs=5000, lr=0.01, lambda_phys=0.1):
+        if self.X_z is None:
+            raise ValueError(f"No data set for tire {self.tire_id}")
+            
+        print(f"\n>>> Training model for tire: {self.tire_id} (Samples: {len(self.X_z)})")
         
         # 转 Tensor
-        z_tensor = torch.FloatTensor(X_z)
-        feat_tensor = torch.FloatTensor(X_feat_scaled)
-        fy_tensor = torch.FloatTensor(Y_fy)
+        z_tensor = torch.FloatTensor(self.X_z)
+        feat_tensor = torch.FloatTensor(self.X_feat)
+        y_tensor = torch.FloatTensor(self.Y_targets)
+        mu_tensor = torch.FloatTensor(self.MU).view(-1, 1)
+        fz_tensor = torch.FloatTensor(self.Fz).view(-1, 1)
 
-        # 初始化模型
-        model = NeuralExpTanhTire(feature_dim=4)
-        optimizer = optim.Adam(model.parameters(), lr=0.01)
+        optimizer = optim.Adam(self.parameters(), lr=lr)
         criterion = nn.MSELoss()
 
-        # 训练循环
-        for epoch in range(501):
-            model.train()
+        for epoch in range(epochs + 1):
+            self.train()
             optimizer.zero_grad()
-            fy_pred = model(z_tensor, feat_tensor)
-            loss = criterion(fy_pred, fy_tensor)
+            
+            y_pred = self.forward(z_tensor, feat_tensor)
+            loss_mse = criterion(y_pred, y_tensor)
+            
+            # 物理约束：|Fy_pred| <= mu * Fz (仅对 Fy 进行约束，如果 Fy 在输出中)
+            loss_phys = torch.tensor(0.0)
+            if "Fy" in self.output_vars:
+                fy_idx = self.output_vars.index("Fy")
+                fy_pred = y_pred[:, fy_idx:fy_idx+1]
+                loss_phys = lambda_phys * torch.mean(torch.relu(torch.abs(fy_pred) - mu_tensor * torch.abs(fz_tensor)))
+            
+            loss = loss_mse + loss_phys
             loss.backward()
             optimizer.step()
             
             if epoch % 100 == 0:
-                print(f"Tire {tire} | Epoch {epoch} | Loss: {loss.item():.4f}")
+                print(f"Tire {self.tire_id} | Epoch {epoch} | Loss: {loss.item():.4f} (MSE: {loss_mse.item():.4f})")
+                self.history['epoch'].append(epoch)
+                self.history['loss'].append(loss.item())
+                self.history['loss_mse'].append(loss_mse.item())
+                self.history['loss_phys'].append(loss_phys.item())
 
-        # 保存模型和预测结果用于可视化
-        models[tire] = model
-        model.eval()
-        with torch.no_grad():
-            fy_pred_all = model(z_tensor, feat_tensor).numpy()
-        verification_results[tire] = (X_z, Y_fy, fy_pred_all)
-
-    # 4. 验证与可视化 (4个子图)
-    fig, axes = plt.subplots(2, 2, figsize=(15, 12))
-    axes = axes.flatten()
+# ==========================================
+# 2. 数据处理辅助函数
+# ==========================================
+def process_agent_results(batch_results):
+    """
+    按轮胎分离数据: {'L1': (X_z, X_feat, Y_fy, MU, Fz, Fx), ...}
+    """
+    tire_data = {tire: {'X_z': [], 'X_feat': [], 'Fy': [], 'MU': [], 'Fz': [], 'Fx': []} for tire in ['L1', 'R1', 'L2', 'R2']}
     
-    for i, tire in enumerate(['L1', 'R1', 'L2', 'R2']):
-        if tire in verification_results:
-            X_z, Y_fy, fy_pred = verification_results[tire]
-            axes[i].scatter(X_z, Y_fy, s=2, alpha=0.5, label='CarSim Data')
-            axes[i].scatter(X_z, fy_pred, s=2, alpha=0.5, label='Model Prediction', color='red')
-            axes[i].set_title(f"Tire {tire} Lateral Force Modeling")
-            axes[i].set_xlabel("tan(alpha)")
-            axes[i].set_ylabel("Fy [N]")
-            axes[i].legend()
-            axes[i].grid(True)
-        else:
-            axes[i].set_title(f"Tire {tire} - No Data")
+    for i, res in enumerate(batch_results):
+        if res.get("status") != "success" or not res.get("extracted_data"):
+            continue
+            
+        mu = res.get("config", {}).get("MU_ROAD_CONSTANT(1)", 0.8)
+        df = pd.DataFrame(res.get("extracted_data"))
+        
+        for tire in tire_data.keys():
+            # 基础建模变量
+            required_cols = [f'Alpha_{tire}', f'Fz_{tire}', f'Fy_{tire}', f'Fx_{tire}', 'Vx', 'Beta', 'AV_Y']
+            if not all(col in df.columns for col in required_cols):
+                continue
+                
+            alpha_rad = df[f'Alpha_{tire}'].values * (np.pi / 180.0)
+            fz = df[f'Fz_{tire}'].values
+            fy = df[f'Fy_{tire}'].values
+            fx = df[f'Fx_{tire}'].values
+            v = df['Vx'].values / 3.6
+            beta = df['Beta'].values * (np.pi / 180.0)
+            r = df['AV_Y'].values * (np.pi / 180.0)
+            z = np.tan(alpha_rad)
+            
+            for j in range(len(df)):
+                tire_data[tire]['X_z'].append([z[j]])
+                # 特征组合：[Vx, Beta, AV_Y, Fz]
+                tire_data[tire]['X_feat'].append([v[j], beta[j], r[j], fz[j]])
+                tire_data[tire]['Fy'].append([fy[j]])
+                tire_data[tire]['Fx'].append([fx[j]])
+                tire_data[tire]['MU'].append(mu)
+                tire_data[tire]['Fz'].append(fz[j])
+                
+    final_tire_data = {}
+    for tire, data in tire_data.items():
+        if len(data['X_z']) > 0:
+            final_tire_data[tire] = {
+                'X_z': np.array(data['X_z']),
+                'X_feat': np.array(data['X_feat']),
+                'Fy': np.array(data['Fy']),
+                'Fx': np.array(data['Fx']),
+                'MU': np.array(data['MU']),
+                'Fz': np.array(data['Fz'])
+            }
+    return final_tire_data
 
+# ==========================================
+# 3. 运行主流程
+# ==========================================
+def run_tire_modeling(historical_dir=None, template_path=None, mods_json_path=None):
+    """
+    获取仿真数据支持两种模式：
+    1. 历史数据：提供 historical_dir
+    2. 新仿真：提供 template_path 和 mods_json_path
+    """
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # 建模所需目标变量：Alpha, Fx, Fy, Fz (4 tires) + Vx, Beta, AV_Y
+    target_vars = [
+        "Time", 
+        "Alpha_L1", "Alpha_R1", "Alpha_L2", "Alpha_R2",
+        "Fx_L1", "Fx_R1", "Fx_L2", "Fx_R2",
+        "Fy_L1", "Fy_R1", "Fy_L2", "Fy_R2",
+        "Fz_L1", "Fz_R1", "Fz_L2", "Fz_R2",
+        "Vx", "Beta", "AV_Y"
+    ]
+    
+    # 1. 获取仿真数据
+    if historical_dir:
+        print(f"📂 Loading historical data from: {historical_dir}")
+        batch_results = CarsimAgent.load_historical_data(historical_dir, required_vars=target_vars)
+    elif template_path and mods_json_path:
+        print(f"🚀 Starting new simulation using template: {template_path}")
+        agent = CarsimAgent(template_path=template_path)
+        with open(mods_json_path, 'r') as f:
+            batch_configs = json.load(f)
+        batch_results = agent.get_simulation_data(batch_configs, target_vars=target_vars)
+    else:
+        raise ValueError("Must provide either historical_dir OR (template_path AND mods_json_path)")
+
+    return process_agent_results(batch_results)
+
+def visualize_3d(tire_id, X_z, Fz, Y_true, Y_pred, MU, suffix=""):
+    fig = plt.figure(figsize=(12, 10))
+    ax = fig.add_subplot(111, projection='3d')
+    markers = ['o', 's', '^', 'D', 'v', '>', '<', 'p', '*']
+    unique_mus = np.unique(MU)
+    for idx, mu in enumerate(unique_mus):
+        mask = (MU == mu)
+        marker = markers[idx % len(markers)]
+        ax.scatter(X_z[mask], Fz[mask], Y_true[mask], s=10, alpha=0.4, marker=marker, label=f'CarSim (MU={mu})')
+        ax.scatter(X_z[mask], Fz[mask], Y_pred[mask], s=10, alpha=0.4, marker=marker, color='red', label=f'Model (MU={mu})')
+    
+    ax.set_title(f"Tire {tire_id} 3D Modeling {suffix}")
+    ax.set_xlabel("tan(alpha)")
+    ax.set_ylabel("Fz [N]")
+    ax.set_zlabel("Fy [N]")
+    ax.set_xlim([-10, 10])
+    ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
-    plt.savefig("tire_model_verification.png")
-    print("\nVerification plot saved as tire_model_verification.png")
+    plt.savefig(f"tire_model_verification_{tire_id}_{suffix}.png")
+    plt.close()
 
 if __name__ == "__main__":
-    run_tire_modeling()
+    hist_dir = r"C:\Users\Public\Documents\CarSim2020.0_Data\Results\Batch_Run_20260313_093433"
+    
+    # 获取数据
+    tire_data_dict = run_tire_modeling(historical_dir=hist_dir)
+    
+    # --- 示例 1: 输入单个轮胎的数据训练单个轮胎模型 ---
+    print("\n--- Example 1: Individual Tire Model (L1) ---")
+    l1_data = tire_data_dict['L1']
+    model_l1 = NeuralExpTanhTire(tire_id="L1")
+    model_l1.set_data(l1_data['X_z'], l1_data['X_feat'], l1_data['Fy'], l1_data['MU'], l1_data['Fz'])
+    model_l1.train_model(epochs=300)
+    
+    # 验证可视化
+    model_l1.eval()
+    with torch.no_grad():
+        fy_pred_l1 = model_l1(torch.FloatTensor(l1_data['X_z']), torch.FloatTensor(l1_data['X_feat'])).numpy()
+    visualize_3d("L1", l1_data['X_z'], l1_data['Fz'], l1_data['Fy'], fy_pred_l1, l1_data['MU'], suffix="individual")
+
+    # --- 示例 2: 合并所有轮胎数据训练一个统一轮胎模型 ---
+    print("\n--- Example 2: Unified Tire Model (All Tires) ---")
+    # 合并所有轮胎的数据
+    all_X_z = np.vstack([d['X_z'] for d in tire_data_dict.values()])
+    all_X_feat = np.vstack([d['X_feat'] for d in tire_data_dict.values()])
+    all_Fy = np.vstack([d['Fy'] for d in tire_data_dict.values()])
+    all_MU = np.concatenate([d['MU'] for d in tire_data_dict.values()])
+    all_Fz = np.concatenate([d['Fz'] for d in tire_data_dict.values()])
+    
+    model_unified = NeuralExpTanhTire(tire_id="Unified")
+    model_unified.set_data(all_X_z, all_X_feat, all_Fy, all_MU, all_Fz)
+    model_unified.train_model(epochs=300)
+    
+    # 验证可视化 (以 L1 数据验证统一模型)
+    model_unified.eval()
+    with torch.no_grad():
+        fy_pred_unified_l1 = model_unified(torch.FloatTensor(l1_data['X_z']), torch.FloatTensor(l1_data['X_feat'])).numpy()
+    visualize_3d("L1", l1_data['X_z'], l1_data['Fz'], l1_data['Fy'], fy_pred_unified_l1, l1_data['MU'], suffix="unified")
+
