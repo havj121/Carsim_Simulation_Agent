@@ -121,9 +121,9 @@ class NeuralExpTanhTire(nn.Module):
             if "Fy" in self.output_vars:
                 fy_idx = self.output_vars.index("Fy")
                 fy_pred = y_pred[:, fy_idx:fy_idx+1]
-                loss_phys = lambda_phys * torch.mean(torch.relu(torch.abs(fy_pred) - mu_tensor * torch.abs(fz_tensor)))
+                loss_phys = torch.mean(torch.relu(torch.abs(fy_pred) - mu_tensor * torch.abs(fz_tensor)))
             
-            loss = loss_mse + loss_phys
+            loss = loss_mse + lambda_phys *loss_phys
             loss.backward()
             optimizer.step()
             
