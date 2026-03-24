@@ -4,8 +4,14 @@ from carsim_agent import CarsimAgent
 
 # 配置
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
-TEMPLATE_DIR = os.path.join(CURRENT_DIR, "Drifting_Template")
-BATCH_MODS_FILE = os.path.join(CURRENT_DIR, "batch_mods.json")
+PROJECT_ROOT = os.path.dirname(CURRENT_DIR)
+
+# 双移线工况配置
+TEMPLATE_DIR = os.path.join(PROJECT_ROOT, "Carsim_Template", "DoubleLaneChange_Template")
+BATCH_MODS_FILE = os.path.join(CURRENT_DIR, "dlc_batch_mods.json")
+# # drifting 工况配置
+# TEMPLATE_DIR = os.path.join(PROJECT_ROOT, "Carsim_Template", "Drifting_Template")
+# BATCH_MODS_FILE = os.path.join(CURRENT_DIR, "drifting_batch_mods.json")
 
 if __name__ == "__main__":
     # 1. 加载配置
@@ -18,8 +24,8 @@ if __name__ == "__main__":
     # 3. 设置选项
     agent.options.run_mode = "mods"
     agent.options.extract_data = True
-    # 设置批量运行时不保留每个任务的详细结果文件夹，以节省空间
-    agent.options.keep_detailed_results = False
+    # 设置批量运行时保留每个任务的详细结果文件夹
+    agent.options.keep_detailed_results = True
     
     # 4. 调用集成的批量运行方法
     # 默认并行进程数为 4
