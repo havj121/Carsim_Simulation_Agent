@@ -108,15 +108,29 @@ def load_all_wheels_data(hist_dir):
             fy_f = fy_l1 + fy_r1
             fy_r = fy_l2 + fy_r2
 
-            # 3. 计算利用系数 (增加 epsilon 防止除零)
-            row["util_x_L1"] = fx_l1 / max(abs(fz_l1), 1e-3)
-            row["util_y_L1"] = fy_l1 / max(abs(fz_l1), 1e-3)
-            row["util_x_R1"] = fx_r1 / max(abs(fz_r1), 1e-3)
-            row["util_y_R1"] = fy_r1 / max(abs(fz_r1), 1e-3)
-            row["util_x_L2"] = fx_l2 / max(abs(fz_l2), 1e-3)
-            row["util_y_L2"] = fy_l2 / max(abs(fz_l2), 1e-3)
-            row["util_x_R2"] = fx_r2 / max(abs(fz_r2), 1e-3)
-            row["util_y_R2"] = fy_r2 / max(abs(fz_r2), 1e-3)
+            # 3. 计算利用系数 (增加 epsilon 防止除零，并计算综合利用系数)
+            # 过滤垂直力过小的点，避免计算出异常大的利用系数 (例如车轮离地)
+            fz_min_threshold = 500.0  # 阈值 500N
+            
+            def calc_util(f_lat_long, fz):
+                if abs(fz) < fz_min_threshold:
+                    return 0.0
+                return f_lat_long / fz
+
+            row["util_x_L1"] = calc_util(fx_l1, fz_l1)
+            row["util_y_L1"] = calc_util(fy_l1, fz_l1)
+            row["util_x_R1"] = calc_util(fx_r1, fz_r1)
+            row["util_y_R1"] = calc_util(fy_r1, fz_r1)
+            row["util_x_L2"] = calc_util(fx_l2, fz_l2)
+            row["util_y_L2"] = calc_util(fy_l2, fz_l2)
+            row["util_x_R2"] = calc_util(fx_r2, fz_r2)
+            row["util_y_R2"] = calc_util(fy_r2, fz_r2)
+
+            # 计算各轮综合利用系数
+            row["util_comb_L1"] = np.sqrt(row["util_x_L1"]**2 + row["util_y_L1"]**2)
+            row["util_comb_R1"] = np.sqrt(row["util_x_R1"]**2 + row["util_y_R1"]**2)
+            row["util_comb_L2"] = np.sqrt(row["util_x_L2"]**2 + row["util_y_L2"]**2)
+            row["util_comb_R2"] = np.sqrt(row["util_x_R2"]**2 + row["util_y_R2"]**2)
 
             # 各轮综合滑移率
             row["kappa_L1"] = kappa_L1_calc[i]
@@ -124,11 +138,31 @@ def load_all_wheels_data(hist_dir):
             row["kappa_L2"] = kappa_L2_calc[i]
             row["kappa_R2"] = kappa_R2_calc[i]
 
+            # 补充原始力、侧偏角和滑移率用于后续分析
+            row["fz_L1"], row["fz_R1"] = fz_l1, fz_r1
+            row["fz_L2"], row["fz_R2"] = fz_l2, fz_r2
+            row["fx_L1"], row["fx_R1"] = fx_l1, fx_r1
+            row["fx_L2"], row["fx_R2"] = fx_l2, fx_r2
+            row["fy_L1"], row["fy_R1"] = fy_l1, fy_r1
+            row["fy_L2"], row["fy_R2"] = fy_l2, fy_r2
+            
+            row["alpha_L1"], row["alpha_R1"] = alpha_L1[i], alpha_R1[i]
+            row["alpha_L2"], row["alpha_R2"] = alpha_L2[i], alpha_R2[i]
+            row["slip_L1"], row["slip_R1"] = kappa_L1[i], kappa_R1[i]
+            row["slip_L2"], row["slip_R2"] = kappa_L2[i], kappa_R2[i]
+            
+            # 质心侧偏角
+            row["beta"] = beta[i]
+
             # 4. 计算轴利用系数
-            row["util_x_front"] = fx_f / max(abs(fz_f), 1e-3)
-            row["util_y_front"] = fy_f / max(abs(fz_f), 1e-3)
-            row["util_x_rear"] = fx_r / max(abs(fz_r), 1e-3)
-            row["util_y_rear"] = fy_r / max(abs(fz_r), 1e-3)
+            row["util_x_front"] = calc_util(fx_f, fz_f)
+            row["util_y_front"] = calc_util(fy_f, fz_f)
+            row["util_x_rear"] = calc_util(fx_r, fz_r)
+            row["util_y_rear"] = calc_util(fy_r, fz_r)
+            
+            # 计算轴综合利用系数
+            row["util_comb_front"] = np.sqrt(row["util_x_front"]**2 + row["util_y_front"]**2)
+            row["util_comb_rear"] = np.sqrt(row["util_x_rear"]**2 + row["util_y_rear"]**2)
 
             # 轴综合滑移率
             row["kappa_front"] = kappa_f_calc[i]
@@ -172,10 +206,12 @@ def plot_friction_circles(data, output_dir="./Tire_Model/Friction_Analysis"):
             
             ux = mu_data[f"util_x_{w}"]
             uy = mu_data[f"util_y_{w}"]
-            kappa = mu_data[f"kappa_{w}"]
+            util_comb = mu_data[f"util_comb_{w}"]
             
-            # 绘制散点，使用 colormap，根据 kappa 设置颜色
-            sc = ax.scatter(ux, uy, c=kappa, s=8, alpha=0.7, cmap='viridis', label='Simulation Data')
+            # 绘制散点，使用 colormap，根据综合利用系数设置颜色
+            # 设置颜色条范围在 0 到 1.0 之间
+            sc = ax.scatter(ux, uy, c=util_comb, s=8, alpha=0.7, cmap='viridis', 
+                            vmin=0, vmax=1.0, label='Simulation Data')
             
             # 绘制摩擦边界圆 (Radius = mu)
             theta = np.linspace(0, 2*np.pi, 200)
@@ -194,7 +230,7 @@ def plot_friction_circles(data, output_dir="./Tire_Model/Friction_Analysis"):
             
             # 添加颜色条
             cbar = plt.colorbar(sc, ax=ax)
-            cbar.set_label('Combined Slip Ratio (kappa)')
+            cbar.set_label('Friction Utilization (Combined)')
 
         plt.tight_layout(rect=[0, 0.03, 1, 0.95])
         save_path = os.path.join(output_dir, f"friction_circle_mu_{mu:.2f}.png")
@@ -227,10 +263,12 @@ def plot_axle_friction_circles(data, output_dir="./Tire_Model/Friction_Analysis"
             
             ux = mu_data[f"util_x_{axle}"]
             uy = mu_data[f"util_y_{axle}"]
-            kappa = mu_data[f"kappa_{axle}"]
+            util_comb = mu_data[f"util_comb_{axle}"]
             
-            # 绘制散点，使用 colormap，根据 kappa 设置颜色
-            sc = ax.scatter(ux, uy, c=kappa, s=8, alpha=0.7, cmap='plasma', label='Simulation Data')
+            # 绘制散点，使用 colormap，根据综合利用系数设置颜色
+            # 设置颜色条范围在 0 到 1.0 之间
+            sc = ax.scatter(ux, uy, c=util_comb, s=8, alpha=0.7, cmap='plasma', 
+                            vmin=0, vmax=1.0, label='Simulation Data')
             
             # 绘制摩擦边界圆
             theta = np.linspace(0, 2*np.pi, 200)
@@ -248,7 +286,7 @@ def plot_axle_friction_circles(data, output_dir="./Tire_Model/Friction_Analysis"
             
             # 添加颜色条
             cbar = plt.colorbar(sc, ax=ax)
-            cbar.set_label('Combined Slip Ratio (kappa)')
+            cbar.set_label('Friction Utilization (Combined)')
 
         plt.tight_layout(rect=[0, 0.03, 1, 0.95])
         save_path = os.path.join(output_dir, f"axle_friction_mu_{mu:.2f}.png")
@@ -260,19 +298,34 @@ def plot_axle_friction_circles(data, output_dir="./Tire_Model/Friction_Analysis"
 # 3. 主程序
 # ------------------------------
 if __name__ == "__main__":
-    # 使用与 TireModel_Exptanh.py 相同的默认目录
-    hist_dir = r"C:\Users\Public\Documents\CarSim2020.0_Data\Results\Batch_Run_20260313_093433"
+    # 需要合并的数据集路径
+    hist_dirs = [
+        r"C:\Users\Public\Documents\CarSim2020.0_Data\Results\Batch_Run_20260324_202921",
+        r"C:\Users\Public\Documents\CarSim2020.0_Data\Results\Batch_Run_20260313_093433"
+    ]
     
-    if not os.path.exists(hist_dir):
-        print(f"Warning: Directory {hist_dir} not found. Please modify the 'hist_dir' variable in the script.")
-    else:
+    all_dfs = []
+    for hist_dir in hist_dirs:
+        if not os.path.exists(hist_dir):
+            print(f"Warning: Directory {hist_dir} not found. Skipping.")
+            continue
+        
         # 加载并计算
         df_util = load_all_wheels_data(hist_dir)
+        if not df_util.empty:
+            all_dfs.append(df_util)
+    
+    if all_dfs:
+        # 合并数据集
+        combined_df = pd.concat(all_dfs, ignore_index=True)
+        print(f"Merged datasets. Total points: {len(combined_df)}")
         
         # 绘图：单轮
-        plot_friction_circles(df_util)
+        plot_friction_circles(combined_df)
         
         # 绘图：前后轴
-        plot_axle_friction_circles(df_util)
+        plot_axle_friction_circles(combined_df)
+    else:
+        print("No data found in the specified directories.")
         
     print("Analysis script finished.")
