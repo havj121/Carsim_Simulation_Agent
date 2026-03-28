@@ -46,9 +46,9 @@ class NeuralExpTanhTire(nn.Module):
         
         self.mlp = nn.Sequential(
             nn.Linear(in_dim, 64),
-            nn.Tanh(),
+            nn.ReLU(),
             nn.Linear(64, 64),
-            nn.Tanh(),
+            nn.ReLU(),
             nn.Linear(64, out_dim) 
         )
 

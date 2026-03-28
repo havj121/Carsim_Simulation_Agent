@@ -11,7 +11,8 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "python": "D:\\ProgramFiles\\Anaconda\\envs\\Pytorch\\python.exe"
+            //"python": "D:\\ProgramFiles\\Anaconda\\envs\\Pytorch\\python.exe"
+            "python": "C:\\Users\\ranwe\\.conda\\envs\\VehicleModel\\python.exe"
         }
     ]
 }
