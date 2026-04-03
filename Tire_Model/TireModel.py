@@ -9,6 +9,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import matplotlib
+import json
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
@@ -246,7 +247,7 @@ if __name__ == "__main__":
     device = torch.device(CONFIG["device"])
 
     # --- 前轴模型 ---
-    print(f"\n🚀 Training Front Axle [{CONFIG['model_type']}]...")
+    print(f"\nTraining Front Axle [{CONFIG['model_type']}]...")
     df_f = filter_tire_data(data_full, 'front')
     feat_cols_f = ['yaw_rate', 'speed', 'beta']
     scaler_f = StandardScaler()
@@ -269,16 +270,34 @@ if __name__ == "__main__":
         if (e+1)%20==0: print(f"Epoch {e+1}, Loss: {l:.4f}")
     
     plot_history(hist, f"Front {CONFIG['model_type']} History", "front_history.png")
+    
+    # 保存前轴完整数据
+    with open(os.path.join(output_dir, "history_front.json"), 'w') as f:
+        json.dump(hist, f)
+        
     model_f.eval()
     with torch.no_grad():
-        pred = model_f(torch.tensor(z_f[idx_test]).to(device), torch.tensor(X_feat_f[idx_test]).to(device), 
-                       torch.tensor(mu_fz_f[idx_test]).to(device)).cpu().numpy()
+        # 训练集预测用于保存
+        pred_train = model_f(torch.tensor(z_f[idx_train]).to(device), torch.tensor(X_feat_f[idx_train]).to(device), 
+                             torch.tensor(mu_fz_f[idx_train]).to(device)).cpu().numpy()
+        # 测试集预测用于评价和保存
+        pred_test = model_f(torch.tensor(z_f[idx_test]).to(device), torch.tensor(X_feat_f[idx_test]).to(device), 
+                            torch.tensor(mu_fz_f[idx_test]).to(device)).cpu().numpy()
+        
+        # 保存结果
+        results_f = {
+            "train_true": target_f[idx_train].tolist(), "train_pred": pred_train.tolist(),
+            "test_true": target_f[idx_test].tolist(), "test_pred": pred_test.tolist()
+        }
+        with open(os.path.join(output_dir, "results_front.json"), 'w') as f:
+            json.dump(results_f, f)
+
         # 评价前轴：百分比误差与绝对误差
-        plot_error(target_f[idx_test], pred, f"Front {CONFIG['model_type']} Fy", "front_fy_error_percent.png", mode="percent")
-        plot_error(target_f[idx_test], pred, f"Front {CONFIG['model_type']} Fy", "front_fy_error_abs.png", mode="abs")
+        plot_error(target_f[idx_test], pred_test, f"Front {CONFIG['model_type']} Fy", "front_fy_error_percent.png", mode="percent")
+        plot_error(target_f[idx_test], pred_test, f"Front {CONFIG['model_type']} Fy", "front_fy_error_abs.png", mode="abs")
 
     # --- 后轴模型 ---
-    print(f"\n🚀 Training Rear Axle [{CONFIG['model_type']}]...")
+    print(f"\nTraining Rear Axle [{CONFIG['model_type']}]...")
     df_r = filter_tire_data(data_full, 'rear')
     feat_cols_r = ['yaw_rate', 'speed']
     scaler_r = StandardScaler()
@@ -304,15 +323,34 @@ if __name__ == "__main__":
         if (e+1)%20==0: print(f"Epoch {e+1}, Loss: {l:.4f}")
 
     plot_history(hist_r, f"Rear {CONFIG['model_type']} History", "rear_history.png")
+    
+    # 保存后轴完整数据
+    with open(os.path.join(output_dir, "history_rear.json"), 'w') as f:
+        json.dump(hist_r, f)
+        
     model_r.eval()
     with torch.no_grad():
-        p_fy, p_fx = model_r(torch.tensor(alpha_r[idx_test]).to(device), torch.tensor(sigma_r[idx_test]).to(device),
-                             torch.tensor(X_feat_r[idx_test]).to(device), torch.tensor(mu_fz_r[idx_test]).to(device))
-        p_fy, p_fx = p_fy.cpu().numpy(), p_fx.cpu().numpy()
-        # 评价后轴：百分比误差与绝对误差
-        plot_error(target_fy_r[idx_test], p_fy, f"Rear {CONFIG['model_type']} Fy", "rear_fy_error_percent.png", mode="percent")
-        plot_error(target_fy_r[idx_test], p_fy, f"Rear {CONFIG['model_type']} Fy", "rear_fy_error_abs.png", mode="abs")
-        plot_error(target_fx_r[idx_test], p_fx, f"Rear {CONFIG['model_type']} Fx", "rear_fx_error_percent.png", mode="percent")
-        plot_error(target_fx_r[idx_test], p_fx, f"Rear {CONFIG['model_type']} Fx", "rear_fx_error_abs.png", mode="abs")
+        # 预测全量数据用于保存
+        p_fy_tr, p_fx_tr = model_r(torch.tensor(alpha_r[idx_train]).to(device), torch.tensor(sigma_r[idx_train]).to(device),
+                                   torch.tensor(X_feat_r[idx_train]).to(device), torch.tensor(mu_fz_r[idx_train]).to(device))
+        p_fy_te, p_fx_te = model_r(torch.tensor(alpha_r[idx_test]).to(device), torch.tensor(sigma_r[idx_test]).to(device),
+                                   torch.tensor(X_feat_r[idx_test]).to(device), torch.tensor(mu_fz_r[idx_test]).to(device))
+        
+        # 保存结果
+        results_r = {
+            "train_true_fy": target_fy_r[idx_train].tolist(), "train_pred_fy": p_fy_tr.cpu().numpy().tolist(),
+            "train_true_fx": target_fx_r[idx_train].tolist(), "train_pred_fx": p_fx_tr.cpu().numpy().tolist(),
+            "test_true_fy": target_fy_r[idx_test].tolist(), "test_pred_fy": p_fy_te.cpu().numpy().tolist(),
+            "test_true_fx": target_fx_r[idx_test].tolist(), "test_pred_fx": p_fx_te.cpu().numpy().tolist()
+        }
+        with open(os.path.join(output_dir, "results_rear.json"), 'w') as f:
+            json.dump(results_r, f)
 
-    print(f"\n✅ Integration training complete. Results in {output_dir}")
+        p_fy_te, p_fx_te = p_fy_te.cpu().numpy(), p_fx_te.cpu().numpy()
+        # 评价后轴：百分比误差与绝对误差
+        plot_error(target_fy_r[idx_test], p_fy_te, f"Rear {CONFIG['model_type']} Fy", "rear_fy_error_percent.png", mode="percent")
+        plot_error(target_fy_r[idx_test], p_fy_te, f"Rear {CONFIG['model_type']} Fy", "rear_fy_error_abs.png", mode="abs")
+        plot_error(target_fx_r[idx_test], p_fx_te, f"Rear {CONFIG['model_type']} Fx", "rear_fx_error_percent.png", mode="percent")
+        plot_error(target_fx_r[idx_test], p_fx_te, f"Rear {CONFIG['model_type']} Fx", "rear_fx_error_abs.png", mode="abs")
+
+    print(f"\nIntegration training complete. Results in {output_dir}")
