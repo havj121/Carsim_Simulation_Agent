@@ -1,78 +1,72 @@
 import os
 import sys
+import io
 import time
+import matlab.engine
 
-# 将当前目录添加到 sys.path
+# 配置目录
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 if CURRENT_DIR not in sys.path:
     sys.path.insert(0, CURRENT_DIR)
 
-# 从 config.py 读取路径并处理 DLL 路径（针对 Python 3.8+）
+LOG_FILE = os.path.join(CURRENT_DIR, "debug_log.txt")
+
+def log(msg):
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(f"[{time.strftime('%H:%M:%S')}] {msg}\n")
+    print(msg)
+    sys.stdout.flush()
+
+# 处理 MATLAB DLL 路径
 try:
     from config import MATLAB_BIN_PATH
-    if os.path.exists(MATLAB_BIN_PATH):
-        if hasattr(os, 'add_dll_directory'):
-            os.add_dll_directory(MATLAB_BIN_PATH)
-        else:
-            os.environ['PATH'] = MATLAB_BIN_PATH + os.pathsep + os.environ.get('PATH', '')
+    if os.path.exists(MATLAB_BIN_PATH) and hasattr(os, 'add_dll_directory'):
+        os.add_dll_directory(MATLAB_BIN_PATH)
 except ImportError:
-    print("⚠️ Warning: Could not import config.py. Path setup might be incomplete.")
+    pass
 
-# 初始化 Matlab/Simulink 引擎
-try:
-    import matlab.engine
-except ImportError:
-    print("❌ MATLAB Python Engine not found. Please install it first.")
-    from setup_matlab_engine import setup_matlab_engine
-    if setup_matlab_engine(force=True):
-        import matlab.engine
-        print("✅ MATLAB Python Engine installed successfully.")
-    else:
-        print("❌ MATLAB Python Engine installation failed.")
-        sys.exit(1)
-
-def run_simulink_setup():
-    print("🚀 Starting MATLAB engine...")
+def run_simulink_setup(version="v1"):
+    if os.path.exists(LOG_FILE): os.remove(LOG_FILE)
+    log(f"Starting MATLAB engine for version: {version}...")
+    
     try:
         eng = matlab.engine.start_matlab()
-        print("✅ MATLAB engine started.")
+        log("✅ MATLAB engine started.")
     except Exception as e:
-        print(f"❌ Failed to start MATLAB engine: {e}")
+        log(f"❌ Failed to start MATLAB engine: {e}")
         return
 
-    # 模板文件名和路径
+    model_name = f"carsim_template_{version}"
     template_dir = os.path.join(CURRENT_DIR, "Template")
-    template_slx = os.path.join(template_dir, "carsim_template_auto.slx")
+    slx_path = os.path.join(template_dir, f"{model_name}.slx").replace("\\", "/")
     
-    if not os.path.exists(template_slx):
-        print(f"🔍 Template file not found. Building it now...")
-        eng.cd(template_dir, nargout=0)
-        
-        try:
-            print(f"🛠️ Executing MATLAB function 'build_carsim_simulink_template'...")
-            eng.eval("build_carsim_simulink_template", nargout=0)
-            
-            # 显式保存
-            slx_path = template_slx.replace("\\", "/")
-            eng.save_system('carsim_template_auto', slx_path, nargout=0)
-            eng.close_system('carsim_template_auto', nargout=0)
-            
-            time.sleep(2)
-            if os.path.exists(template_slx):
-                print(f"✅ Template file created successfully at: {template_slx}")
-            else:
-                print("⚠️ Build script finished but .slx file was not found.")
-        except Exception as e:
-            print(f"❌ Error during MATLAB build: {e}")
-    else:
-        print(f"✅ Template file already exists: {template_slx}")
-        
-    # 示例：运行一个简单的命令
-    res = eng.sqrt(42.0)
-    print(f"MATLAB Test: sqrt(42) = {res}")
+    log(f"🛠️ Building model: {model_name}")
+    eng.cd(template_dir, nargout=0)
     
-    print("🚪 Closing MATLAB engine...")
-    eng.quit()
+    out, err = io.StringIO(), io.StringIO()
+    try:
+        func_name = f"build_carsim_simulink_template_{version}"
+        log(f"Executing: {func_name}...")
+        
+        eng.eval(f"status = {func_name}('{model_name}', '{slx_path}')", nargout=0, stdout=out, stderr=err)
+        status = eng.workspace['status']
+        
+        if out.getvalue(): log(f"MATLAB Output:\n{out.getvalue()}")
+        if err.getvalue(): log(f"MATLAB Error:\n{err.getvalue()}")
+        
+        if status:
+            log(f"✅ SUCCESS: Model saved at {slx_path}")
+        else:
+            log("❌ FAILURE: MATLAB function returned error status.")
+            
+    except Exception as e:
+        log(f"❌ CRITICAL ERROR during build: {e}")
+    finally:
+        log("🚪 Closing MATLAB engine...")
+        time.sleep(1)
+        eng.quit()
 
 if __name__ == "__main__":
-    run_simulink_setup()
+    # 可选参数: "v1", "v2" 或 "v3"
+    target_version = "v2"
+    run_simulink_setup(version=target_version)
